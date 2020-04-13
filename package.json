@@ -1,0 +1,29 @@
+{
+  "name": "Recipes-BE",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/J2Macwilliams/Recipes-BE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/J2Macwilliams/Recipes-BE/issues"
+  },
+  "homepage": "https://github.com/J2Macwilliams/Recipes-BE#readme",
+  "dependencies": {
+    "apollo-server": "^2.12.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "prisma": "^1.34.10",
+    "prisma-client-lib": "^1.34.10"
+  }
+}
