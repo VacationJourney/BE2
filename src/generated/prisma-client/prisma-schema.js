@@ -3,7 +3,15 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregateEvent {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type AggregateVacation {
   count: Int!
 }
 
@@ -11,15 +19,313 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
+type Event {
+  id: ID!
+  date: DateTime!
+  startTime: DateTime
+  endTime: DateTime
+  title: String!
+  description: String
+}
+
+type EventConnection {
+  pageInfo: PageInfo!
+  edges: [EventEdge]!
+  aggregate: AggregateEvent!
+}
+
+input EventCreateInput {
+  id: ID
+  date: DateTime!
+  startTime: DateTime
+  endTime: DateTime
+  title: String!
+  description: String
+}
+
+input EventCreateManyInput {
+  create: [EventCreateInput!]
+  connect: [EventWhereUniqueInput!]
+}
+
+type EventEdge {
+  node: Event!
+  cursor: String!
+}
+
+enum EventOrderByInput {
+  id_ASC
+  id_DESC
+  date_ASC
+  date_DESC
+  startTime_ASC
+  startTime_DESC
+  endTime_ASC
+  endTime_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
+}
+
+type EventPreviousValues {
+  id: ID!
+  date: DateTime!
+  startTime: DateTime
+  endTime: DateTime
+  title: String!
+  description: String
+}
+
+input EventScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  startTime: DateTime
+  startTime_not: DateTime
+  startTime_in: [DateTime!]
+  startTime_not_in: [DateTime!]
+  startTime_lt: DateTime
+  startTime_lte: DateTime
+  startTime_gt: DateTime
+  startTime_gte: DateTime
+  endTime: DateTime
+  endTime_not: DateTime
+  endTime_in: [DateTime!]
+  endTime_not_in: [DateTime!]
+  endTime_lt: DateTime
+  endTime_lte: DateTime
+  endTime_gt: DateTime
+  endTime_gte: DateTime
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  AND: [EventScalarWhereInput!]
+  OR: [EventScalarWhereInput!]
+  NOT: [EventScalarWhereInput!]
+}
+
+type EventSubscriptionPayload {
+  mutation: MutationType!
+  node: Event
+  updatedFields: [String!]
+  previousValues: EventPreviousValues
+}
+
+input EventSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: EventWhereInput
+  AND: [EventSubscriptionWhereInput!]
+  OR: [EventSubscriptionWhereInput!]
+  NOT: [EventSubscriptionWhereInput!]
+}
+
+input EventUpdateDataInput {
+  date: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  title: String
+  description: String
+}
+
+input EventUpdateInput {
+  date: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  title: String
+  description: String
+}
+
+input EventUpdateManyDataInput {
+  date: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  title: String
+  description: String
+}
+
+input EventUpdateManyInput {
+  create: [EventCreateInput!]
+  update: [EventUpdateWithWhereUniqueNestedInput!]
+  upsert: [EventUpsertWithWhereUniqueNestedInput!]
+  delete: [EventWhereUniqueInput!]
+  connect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
+  disconnect: [EventWhereUniqueInput!]
+  deleteMany: [EventScalarWhereInput!]
+  updateMany: [EventUpdateManyWithWhereNestedInput!]
+}
+
+input EventUpdateManyMutationInput {
+  date: DateTime
+  startTime: DateTime
+  endTime: DateTime
+  title: String
+  description: String
+}
+
+input EventUpdateManyWithWhereNestedInput {
+  where: EventScalarWhereInput!
+  data: EventUpdateManyDataInput!
+}
+
+input EventUpdateWithWhereUniqueNestedInput {
+  where: EventWhereUniqueInput!
+  data: EventUpdateDataInput!
+}
+
+input EventUpsertWithWhereUniqueNestedInput {
+  where: EventWhereUniqueInput!
+  update: EventUpdateDataInput!
+  create: EventCreateInput!
+}
+
+input EventWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  startTime: DateTime
+  startTime_not: DateTime
+  startTime_in: [DateTime!]
+  startTime_not_in: [DateTime!]
+  startTime_lt: DateTime
+  startTime_lte: DateTime
+  startTime_gt: DateTime
+  startTime_gte: DateTime
+  endTime: DateTime
+  endTime_not: DateTime
+  endTime_in: [DateTime!]
+  endTime_not_in: [DateTime!]
+  endTime_lt: DateTime
+  endTime_lte: DateTime
+  endTime_gt: DateTime
+  endTime_gte: DateTime
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  AND: [EventWhereInput!]
+  OR: [EventWhereInput!]
+  NOT: [EventWhereInput!]
+}
+
+input EventWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createEvent(data: EventCreateInput!): Event!
+  updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
+  updateManyEvents(data: EventUpdateManyMutationInput!, where: EventWhereInput): BatchPayload!
+  upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
+  deleteEvent(where: EventWhereUniqueInput!): Event
+  deleteManyEvents(where: EventWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createVacation(data: VacationCreateInput!): Vacation!
+  updateVacation(data: VacationUpdateInput!, where: VacationWhereUniqueInput!): Vacation
+  updateManyVacations(data: VacationUpdateManyMutationInput!, where: VacationWhereInput): BatchPayload!
+  upsertVacation(where: VacationWhereUniqueInput!, create: VacationCreateInput!, update: VacationUpdateInput!): Vacation!
+  deleteVacation(where: VacationWhereUniqueInput!): Vacation
+  deleteManyVacations(where: VacationWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -40,20 +346,31 @@ type PageInfo {
 }
 
 type Query {
+  event(where: EventWhereUniqueInput!): Event
+  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]!
+  eventsConnection(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EventConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  vacation(where: VacationWhereUniqueInput!): Vacation
+  vacations(where: VacationWhereInput, orderBy: VacationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vacation]!
+  vacationsConnection(where: VacationWhereInput, orderBy: VacationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VacationConnection!
   node(id: ID!): Node
 }
 
 type Subscription {
+  event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  vacation(where: VacationSubscriptionWhereInput): VacationSubscriptionPayload
 }
 
 type User {
   id: ID!
   username: String!
+  name: String
+  email: String
   password: String!
+  vacations(where: VacationWhereInput, orderBy: VacationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vacation!]
 }
 
 type UserConnection {
@@ -65,7 +382,10 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   username: String!
+  name: String
+  email: String
   password: String!
+  vacations: VacationCreateManyInput
 }
 
 type UserEdge {
@@ -78,6 +398,10 @@ enum UserOrderByInput {
   id_DESC
   username_ASC
   username_DESC
+  name_ASC
+  name_DESC
+  email_ASC
+  email_DESC
   password_ASC
   password_DESC
 }
@@ -85,6 +409,8 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   username: String!
+  name: String
+  email: String
   password: String!
 }
 
@@ -108,11 +434,16 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   username: String
+  name: String
+  email: String
   password: String
+  vacations: VacationUpdateManyInput
 }
 
 input UserUpdateManyMutationInput {
   username: String
+  name: String
+  email: String
   password: String
 }
 
@@ -145,6 +476,34 @@ input UserWhereInput {
   username_not_starts_with: String
   username_ends_with: String
   username_not_ends_with: String
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
   password: String
   password_not: String
   password_in: [String!]
@@ -159,6 +518,9 @@ input UserWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
+  vacations_every: VacationWhereInput
+  vacations_some: VacationWhereInput
+  vacations_none: VacationWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -167,6 +529,235 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   username: String
+}
+
+type Vacation {
+  id: ID!
+  title: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+}
+
+type VacationConnection {
+  pageInfo: PageInfo!
+  edges: [VacationEdge]!
+  aggregate: AggregateVacation!
+}
+
+input VacationCreateInput {
+  id: ID
+  title: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  events: EventCreateManyInput
+}
+
+input VacationCreateManyInput {
+  create: [VacationCreateInput!]
+  connect: [VacationWhereUniqueInput!]
+}
+
+type VacationEdge {
+  node: Vacation!
+  cursor: String!
+}
+
+enum VacationOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+  startDate_ASC
+  startDate_DESC
+  endDate_ASC
+  endDate_DESC
+}
+
+type VacationPreviousValues {
+  id: ID!
+  title: String!
+  startDate: DateTime!
+  endDate: DateTime!
+}
+
+input VacationScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  startDate: DateTime
+  startDate_not: DateTime
+  startDate_in: [DateTime!]
+  startDate_not_in: [DateTime!]
+  startDate_lt: DateTime
+  startDate_lte: DateTime
+  startDate_gt: DateTime
+  startDate_gte: DateTime
+  endDate: DateTime
+  endDate_not: DateTime
+  endDate_in: [DateTime!]
+  endDate_not_in: [DateTime!]
+  endDate_lt: DateTime
+  endDate_lte: DateTime
+  endDate_gt: DateTime
+  endDate_gte: DateTime
+  AND: [VacationScalarWhereInput!]
+  OR: [VacationScalarWhereInput!]
+  NOT: [VacationScalarWhereInput!]
+}
+
+type VacationSubscriptionPayload {
+  mutation: MutationType!
+  node: Vacation
+  updatedFields: [String!]
+  previousValues: VacationPreviousValues
+}
+
+input VacationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: VacationWhereInput
+  AND: [VacationSubscriptionWhereInput!]
+  OR: [VacationSubscriptionWhereInput!]
+  NOT: [VacationSubscriptionWhereInput!]
+}
+
+input VacationUpdateDataInput {
+  title: String
+  startDate: DateTime
+  endDate: DateTime
+  events: EventUpdateManyInput
+}
+
+input VacationUpdateInput {
+  title: String
+  startDate: DateTime
+  endDate: DateTime
+  events: EventUpdateManyInput
+}
+
+input VacationUpdateManyDataInput {
+  title: String
+  startDate: DateTime
+  endDate: DateTime
+}
+
+input VacationUpdateManyInput {
+  create: [VacationCreateInput!]
+  update: [VacationUpdateWithWhereUniqueNestedInput!]
+  upsert: [VacationUpsertWithWhereUniqueNestedInput!]
+  delete: [VacationWhereUniqueInput!]
+  connect: [VacationWhereUniqueInput!]
+  set: [VacationWhereUniqueInput!]
+  disconnect: [VacationWhereUniqueInput!]
+  deleteMany: [VacationScalarWhereInput!]
+  updateMany: [VacationUpdateManyWithWhereNestedInput!]
+}
+
+input VacationUpdateManyMutationInput {
+  title: String
+  startDate: DateTime
+  endDate: DateTime
+}
+
+input VacationUpdateManyWithWhereNestedInput {
+  where: VacationScalarWhereInput!
+  data: VacationUpdateManyDataInput!
+}
+
+input VacationUpdateWithWhereUniqueNestedInput {
+  where: VacationWhereUniqueInput!
+  data: VacationUpdateDataInput!
+}
+
+input VacationUpsertWithWhereUniqueNestedInput {
+  where: VacationWhereUniqueInput!
+  update: VacationUpdateDataInput!
+  create: VacationCreateInput!
+}
+
+input VacationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  startDate: DateTime
+  startDate_not: DateTime
+  startDate_in: [DateTime!]
+  startDate_not_in: [DateTime!]
+  startDate_lt: DateTime
+  startDate_lte: DateTime
+  startDate_gt: DateTime
+  startDate_gte: DateTime
+  endDate: DateTime
+  endDate_not: DateTime
+  endDate_in: [DateTime!]
+  endDate_not_in: [DateTime!]
+  endDate_lt: DateTime
+  endDate_lte: DateTime
+  endDate_gt: DateTime
+  endDate_gte: DateTime
+  events_every: EventWhereInput
+  events_some: EventWhereInput
+  events_none: EventWhereInput
+  AND: [VacationWhereInput!]
+  OR: [VacationWhereInput!]
+  NOT: [VacationWhereInput!]
+}
+
+input VacationWhereUniqueInput {
+  id: ID
 }
 `
       }
