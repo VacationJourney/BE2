@@ -1,5 +1,25 @@
 type User {
   id: ID! @id
   username: String! @unique
+  name: String
+  email: String
   password: String!
+  vacations: [Vacation!]! @relation(link: INLINE)
+}
+
+type Vacation {
+  id: ID! @id
+  title: String!
+  startDate: DateTime!
+  endDate: DateTime!
+  events: [Event!]! @relation(link: INLINE)
+}
+
+type Event {
+  id: ID! @id
+  date: DateTime!
+  startTime: DateTime
+  endTime: DateTime
+  title: String!
+  description: String
 }
