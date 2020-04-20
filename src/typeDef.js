@@ -1,49 +1,76 @@
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
-  type User {
-  id: ID!
-  username: String!
-  name: String
-  email: String
-  vacations: [Vacation!]!
-}
+	# scalar Date
 
-type Vacation {
-  id: ID!
-  title: String!
-  startDate: DateTime!
-  endDate: DateTime!
-  events: [Event!]!
-}
+	type User {
+		id: ID!
+		username: String!
+		name: String
+		email: String
+		vacations: [Vacation!]
+	}
 
-type Event {
-  id: ID! 
-  date: DateTime!
-  startTime: DateTime
-  endTime: DateTime
-  title: String!
-  description: String
-}
+	type Vacation {
+		id: ID!
+		title: String!
+		startDate: String!
+		endDate: String!
+		events: [Event!]
+		traveler: User
+	}
 
-type Query {
-  currentUser: User!
-  userVacations: [Vacation!]!
-  currentVacation: Vacation!
-  dayEvents: [Event!]!
-  eventInfo: Event!
-}
+	type Event {
+		id: ID!
+		title: String!
+		date: String!
+		startTime: String
+		endTime: String
+		description: String
+    	trip: Vacation
+	}
 
-type Mutation {
-  signUp(username: String!, name: String, email: String, password: String!): User!
-  login(username: String!, password: String!): LoginResponse!
-  createVacation(title: String!, startDate: DateTime!, endDate: DateTime!, )
-}
+	type Query {
+		users: [User!]!
+		currentUser: User!
+		userVacations: [Vacation!]!
+		currentVacation: Vacation!
+		dayEvents: [Event!]!
+		eventInfo: Event!
+	}
 
-type LoginResponse {
-  token: String
-  user: User
-}
+	type Mutation {
+		signUp(
+			username: String!
+			name: String
+			email: String
+			password: String!
+		): User!
+
+		login(username: String!, password: String!): LoginResponse!
+
+		newVacation(
+			title: String!
+			startDate: String!
+			endDate: String!
+			userId: ID!
+		): Vacation!
+
+		newEvent(
+			date: String!
+			startTime: String
+			endTime: String
+			title: String!
+			description: String
+			vacationId: ID! 
+		): Event!
+
+	}
+
+	type LoginResponse {
+		token: String
+		user: User
+	}
 `;
 
 module.exports = typeDefs;
