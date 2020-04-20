@@ -19,15 +19,14 @@ type BatchPayload {
   count: Long!
 }
 
-scalar DateTime
-
 type Event {
   id: ID!
-  date: DateTime!
-  startTime: DateTime
-  endTime: DateTime
+  date: String!
+  startTime: String
+  endTime: String
   title: String!
   description: String
+  trip: Vacation
 }
 
 type EventConnection {
@@ -38,16 +37,26 @@ type EventConnection {
 
 input EventCreateInput {
   id: ID
-  date: DateTime!
-  startTime: DateTime
-  endTime: DateTime
+  date: String!
+  startTime: String
+  endTime: String
   title: String!
   description: String
+  trip: VacationCreateOneWithoutEventsInput
 }
 
-input EventCreateManyInput {
-  create: [EventCreateInput!]
+input EventCreateManyWithoutTripInput {
+  create: [EventCreateWithoutTripInput!]
   connect: [EventWhereUniqueInput!]
+}
+
+input EventCreateWithoutTripInput {
+  id: ID
+  date: String!
+  startTime: String
+  endTime: String
+  title: String!
+  description: String
 }
 
 type EventEdge {
@@ -72,9 +81,9 @@ enum EventOrderByInput {
 
 type EventPreviousValues {
   id: ID!
-  date: DateTime!
-  startTime: DateTime
-  endTime: DateTime
+  date: String!
+  startTime: String
+  endTime: String
   title: String!
   description: String
 }
@@ -94,30 +103,48 @@ input EventScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  date: DateTime
-  date_not: DateTime
-  date_in: [DateTime!]
-  date_not_in: [DateTime!]
-  date_lt: DateTime
-  date_lte: DateTime
-  date_gt: DateTime
-  date_gte: DateTime
-  startTime: DateTime
-  startTime_not: DateTime
-  startTime_in: [DateTime!]
-  startTime_not_in: [DateTime!]
-  startTime_lt: DateTime
-  startTime_lte: DateTime
-  startTime_gt: DateTime
-  startTime_gte: DateTime
-  endTime: DateTime
-  endTime_not: DateTime
-  endTime_in: [DateTime!]
-  endTime_not_in: [DateTime!]
-  endTime_lt: DateTime
-  endTime_lte: DateTime
-  endTime_gt: DateTime
-  endTime_gte: DateTime
+  date: String
+  date_not: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_lt: String
+  date_lte: String
+  date_gt: String
+  date_gte: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
+  startTime: String
+  startTime_not: String
+  startTime_in: [String!]
+  startTime_not_in: [String!]
+  startTime_lt: String
+  startTime_lte: String
+  startTime_gt: String
+  startTime_gte: String
+  startTime_contains: String
+  startTime_not_contains: String
+  startTime_starts_with: String
+  startTime_not_starts_with: String
+  startTime_ends_with: String
+  startTime_not_ends_with: String
+  endTime: String
+  endTime_not: String
+  endTime_in: [String!]
+  endTime_not_in: [String!]
+  endTime_lt: String
+  endTime_lte: String
+  endTime_gt: String
+  endTime_gte: String
+  endTime_contains: String
+  endTime_not_contains: String
+  endTime_starts_with: String
+  endTime_not_starts_with: String
+  endTime_ends_with: String
+  endTime_not_ends_with: String
   title: String
   title_not: String
   title_in: [String!]
@@ -169,48 +196,41 @@ input EventSubscriptionWhereInput {
   NOT: [EventSubscriptionWhereInput!]
 }
 
-input EventUpdateDataInput {
-  date: DateTime
-  startTime: DateTime
-  endTime: DateTime
-  title: String
-  description: String
-}
-
 input EventUpdateInput {
-  date: DateTime
-  startTime: DateTime
-  endTime: DateTime
+  date: String
+  startTime: String
+  endTime: String
   title: String
   description: String
+  trip: VacationUpdateOneWithoutEventsInput
 }
 
 input EventUpdateManyDataInput {
-  date: DateTime
-  startTime: DateTime
-  endTime: DateTime
+  date: String
+  startTime: String
+  endTime: String
   title: String
   description: String
 }
 
-input EventUpdateManyInput {
-  create: [EventCreateInput!]
-  update: [EventUpdateWithWhereUniqueNestedInput!]
-  upsert: [EventUpsertWithWhereUniqueNestedInput!]
+input EventUpdateManyMutationInput {
+  date: String
+  startTime: String
+  endTime: String
+  title: String
+  description: String
+}
+
+input EventUpdateManyWithoutTripInput {
+  create: [EventCreateWithoutTripInput!]
   delete: [EventWhereUniqueInput!]
   connect: [EventWhereUniqueInput!]
   set: [EventWhereUniqueInput!]
   disconnect: [EventWhereUniqueInput!]
+  update: [EventUpdateWithWhereUniqueWithoutTripInput!]
+  upsert: [EventUpsertWithWhereUniqueWithoutTripInput!]
   deleteMany: [EventScalarWhereInput!]
   updateMany: [EventUpdateManyWithWhereNestedInput!]
-}
-
-input EventUpdateManyMutationInput {
-  date: DateTime
-  startTime: DateTime
-  endTime: DateTime
-  title: String
-  description: String
 }
 
 input EventUpdateManyWithWhereNestedInput {
@@ -218,15 +238,23 @@ input EventUpdateManyWithWhereNestedInput {
   data: EventUpdateManyDataInput!
 }
 
-input EventUpdateWithWhereUniqueNestedInput {
-  where: EventWhereUniqueInput!
-  data: EventUpdateDataInput!
+input EventUpdateWithoutTripDataInput {
+  date: String
+  startTime: String
+  endTime: String
+  title: String
+  description: String
 }
 
-input EventUpsertWithWhereUniqueNestedInput {
+input EventUpdateWithWhereUniqueWithoutTripInput {
   where: EventWhereUniqueInput!
-  update: EventUpdateDataInput!
-  create: EventCreateInput!
+  data: EventUpdateWithoutTripDataInput!
+}
+
+input EventUpsertWithWhereUniqueWithoutTripInput {
+  where: EventWhereUniqueInput!
+  update: EventUpdateWithoutTripDataInput!
+  create: EventCreateWithoutTripInput!
 }
 
 input EventWhereInput {
@@ -244,30 +272,48 @@ input EventWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  date: DateTime
-  date_not: DateTime
-  date_in: [DateTime!]
-  date_not_in: [DateTime!]
-  date_lt: DateTime
-  date_lte: DateTime
-  date_gt: DateTime
-  date_gte: DateTime
-  startTime: DateTime
-  startTime_not: DateTime
-  startTime_in: [DateTime!]
-  startTime_not_in: [DateTime!]
-  startTime_lt: DateTime
-  startTime_lte: DateTime
-  startTime_gt: DateTime
-  startTime_gte: DateTime
-  endTime: DateTime
-  endTime_not: DateTime
-  endTime_in: [DateTime!]
-  endTime_not_in: [DateTime!]
-  endTime_lt: DateTime
-  endTime_lte: DateTime
-  endTime_gt: DateTime
-  endTime_gte: DateTime
+  date: String
+  date_not: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_lt: String
+  date_lte: String
+  date_gt: String
+  date_gte: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
+  startTime: String
+  startTime_not: String
+  startTime_in: [String!]
+  startTime_not_in: [String!]
+  startTime_lt: String
+  startTime_lte: String
+  startTime_gt: String
+  startTime_gte: String
+  startTime_contains: String
+  startTime_not_contains: String
+  startTime_starts_with: String
+  startTime_not_starts_with: String
+  startTime_ends_with: String
+  startTime_not_ends_with: String
+  endTime: String
+  endTime_not: String
+  endTime_in: [String!]
+  endTime_not_in: [String!]
+  endTime_lt: String
+  endTime_lte: String
+  endTime_gt: String
+  endTime_gte: String
+  endTime_contains: String
+  endTime_not_contains: String
+  endTime_starts_with: String
+  endTime_not_starts_with: String
+  endTime_ends_with: String
+  endTime_not_ends_with: String
   title: String
   title_not: String
   title_in: [String!]
@@ -296,6 +342,7 @@ input EventWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  trip: VacationWhereInput
   AND: [EventWhereInput!]
   OR: [EventWhereInput!]
   NOT: [EventWhereInput!]
@@ -385,7 +432,20 @@ input UserCreateInput {
   name: String
   email: String
   password: String!
-  vacations: VacationCreateManyInput
+  vacations: VacationCreateManyWithoutTravelerInput
+}
+
+input UserCreateOneWithoutVacationsInput {
+  create: UserCreateWithoutVacationsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutVacationsInput {
+  id: ID
+  username: String!
+  name: String
+  email: String
+  password: String!
 }
 
 type UserEdge {
@@ -437,7 +497,7 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
-  vacations: VacationUpdateManyInput
+  vacations: VacationUpdateManyWithoutTravelerInput
 }
 
 input UserUpdateManyMutationInput {
@@ -445,6 +505,27 @@ input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+}
+
+input UserUpdateOneWithoutVacationsInput {
+  create: UserCreateWithoutVacationsInput
+  update: UserUpdateWithoutVacationsDataInput
+  upsert: UserUpsertWithoutVacationsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutVacationsDataInput {
+  username: String
+  name: String
+  email: String
+  password: String
+}
+
+input UserUpsertWithoutVacationsInput {
+  update: UserUpdateWithoutVacationsDataInput!
+  create: UserCreateWithoutVacationsInput!
 }
 
 input UserWhereInput {
@@ -534,9 +615,10 @@ input UserWhereUniqueInput {
 type Vacation {
   id: ID!
   title: String!
-  startDate: DateTime!
-  endDate: DateTime!
+  startDate: String!
+  endDate: String!
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  traveler: User
 }
 
 type VacationConnection {
@@ -548,14 +630,36 @@ type VacationConnection {
 input VacationCreateInput {
   id: ID
   title: String!
-  startDate: DateTime!
-  endDate: DateTime!
-  events: EventCreateManyInput
+  startDate: String!
+  endDate: String!
+  events: EventCreateManyWithoutTripInput
+  traveler: UserCreateOneWithoutVacationsInput
 }
 
-input VacationCreateManyInput {
-  create: [VacationCreateInput!]
+input VacationCreateManyWithoutTravelerInput {
+  create: [VacationCreateWithoutTravelerInput!]
   connect: [VacationWhereUniqueInput!]
+}
+
+input VacationCreateOneWithoutEventsInput {
+  create: VacationCreateWithoutEventsInput
+  connect: VacationWhereUniqueInput
+}
+
+input VacationCreateWithoutEventsInput {
+  id: ID
+  title: String!
+  startDate: String!
+  endDate: String!
+  traveler: UserCreateOneWithoutVacationsInput
+}
+
+input VacationCreateWithoutTravelerInput {
+  id: ID
+  title: String!
+  startDate: String!
+  endDate: String!
+  events: EventCreateManyWithoutTripInput
 }
 
 type VacationEdge {
@@ -577,8 +681,8 @@ enum VacationOrderByInput {
 type VacationPreviousValues {
   id: ID!
   title: String!
-  startDate: DateTime!
-  endDate: DateTime!
+  startDate: String!
+  endDate: String!
 }
 
 input VacationScalarWhereInput {
@@ -610,22 +714,34 @@ input VacationScalarWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
-  startDate: DateTime
-  startDate_not: DateTime
-  startDate_in: [DateTime!]
-  startDate_not_in: [DateTime!]
-  startDate_lt: DateTime
-  startDate_lte: DateTime
-  startDate_gt: DateTime
-  startDate_gte: DateTime
-  endDate: DateTime
-  endDate_not: DateTime
-  endDate_in: [DateTime!]
-  endDate_not_in: [DateTime!]
-  endDate_lt: DateTime
-  endDate_lte: DateTime
-  endDate_gt: DateTime
-  endDate_gte: DateTime
+  startDate: String
+  startDate_not: String
+  startDate_in: [String!]
+  startDate_not_in: [String!]
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_contains: String
+  startDate_not_contains: String
+  startDate_starts_with: String
+  startDate_not_starts_with: String
+  startDate_ends_with: String
+  startDate_not_ends_with: String
+  endDate: String
+  endDate_not: String
+  endDate_in: [String!]
+  endDate_not_in: [String!]
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_contains: String
+  endDate_not_contains: String
+  endDate_starts_with: String
+  endDate_not_starts_with: String
+  endDate_ends_with: String
+  endDate_not_ends_with: String
   AND: [VacationScalarWhereInput!]
   OR: [VacationScalarWhereInput!]
   NOT: [VacationScalarWhereInput!]
@@ -649,42 +765,36 @@ input VacationSubscriptionWhereInput {
   NOT: [VacationSubscriptionWhereInput!]
 }
 
-input VacationUpdateDataInput {
-  title: String
-  startDate: DateTime
-  endDate: DateTime
-  events: EventUpdateManyInput
-}
-
 input VacationUpdateInput {
   title: String
-  startDate: DateTime
-  endDate: DateTime
-  events: EventUpdateManyInput
+  startDate: String
+  endDate: String
+  events: EventUpdateManyWithoutTripInput
+  traveler: UserUpdateOneWithoutVacationsInput
 }
 
 input VacationUpdateManyDataInput {
   title: String
-  startDate: DateTime
-  endDate: DateTime
-}
-
-input VacationUpdateManyInput {
-  create: [VacationCreateInput!]
-  update: [VacationUpdateWithWhereUniqueNestedInput!]
-  upsert: [VacationUpsertWithWhereUniqueNestedInput!]
-  delete: [VacationWhereUniqueInput!]
-  connect: [VacationWhereUniqueInput!]
-  set: [VacationWhereUniqueInput!]
-  disconnect: [VacationWhereUniqueInput!]
-  deleteMany: [VacationScalarWhereInput!]
-  updateMany: [VacationUpdateManyWithWhereNestedInput!]
+  startDate: String
+  endDate: String
 }
 
 input VacationUpdateManyMutationInput {
   title: String
-  startDate: DateTime
-  endDate: DateTime
+  startDate: String
+  endDate: String
+}
+
+input VacationUpdateManyWithoutTravelerInput {
+  create: [VacationCreateWithoutTravelerInput!]
+  delete: [VacationWhereUniqueInput!]
+  connect: [VacationWhereUniqueInput!]
+  set: [VacationWhereUniqueInput!]
+  disconnect: [VacationWhereUniqueInput!]
+  update: [VacationUpdateWithWhereUniqueWithoutTravelerInput!]
+  upsert: [VacationUpsertWithWhereUniqueWithoutTravelerInput!]
+  deleteMany: [VacationScalarWhereInput!]
+  updateMany: [VacationUpdateManyWithWhereNestedInput!]
 }
 
 input VacationUpdateManyWithWhereNestedInput {
@@ -692,15 +802,43 @@ input VacationUpdateManyWithWhereNestedInput {
   data: VacationUpdateManyDataInput!
 }
 
-input VacationUpdateWithWhereUniqueNestedInput {
-  where: VacationWhereUniqueInput!
-  data: VacationUpdateDataInput!
+input VacationUpdateOneWithoutEventsInput {
+  create: VacationCreateWithoutEventsInput
+  update: VacationUpdateWithoutEventsDataInput
+  upsert: VacationUpsertWithoutEventsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: VacationWhereUniqueInput
 }
 
-input VacationUpsertWithWhereUniqueNestedInput {
+input VacationUpdateWithoutEventsDataInput {
+  title: String
+  startDate: String
+  endDate: String
+  traveler: UserUpdateOneWithoutVacationsInput
+}
+
+input VacationUpdateWithoutTravelerDataInput {
+  title: String
+  startDate: String
+  endDate: String
+  events: EventUpdateManyWithoutTripInput
+}
+
+input VacationUpdateWithWhereUniqueWithoutTravelerInput {
   where: VacationWhereUniqueInput!
-  update: VacationUpdateDataInput!
-  create: VacationCreateInput!
+  data: VacationUpdateWithoutTravelerDataInput!
+}
+
+input VacationUpsertWithoutEventsInput {
+  update: VacationUpdateWithoutEventsDataInput!
+  create: VacationCreateWithoutEventsInput!
+}
+
+input VacationUpsertWithWhereUniqueWithoutTravelerInput {
+  where: VacationWhereUniqueInput!
+  update: VacationUpdateWithoutTravelerDataInput!
+  create: VacationCreateWithoutTravelerInput!
 }
 
 input VacationWhereInput {
@@ -732,25 +870,38 @@ input VacationWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
-  startDate: DateTime
-  startDate_not: DateTime
-  startDate_in: [DateTime!]
-  startDate_not_in: [DateTime!]
-  startDate_lt: DateTime
-  startDate_lte: DateTime
-  startDate_gt: DateTime
-  startDate_gte: DateTime
-  endDate: DateTime
-  endDate_not: DateTime
-  endDate_in: [DateTime!]
-  endDate_not_in: [DateTime!]
-  endDate_lt: DateTime
-  endDate_lte: DateTime
-  endDate_gt: DateTime
-  endDate_gte: DateTime
+  startDate: String
+  startDate_not: String
+  startDate_in: [String!]
+  startDate_not_in: [String!]
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_contains: String
+  startDate_not_contains: String
+  startDate_starts_with: String
+  startDate_not_starts_with: String
+  startDate_ends_with: String
+  startDate_not_ends_with: String
+  endDate: String
+  endDate_not: String
+  endDate_in: [String!]
+  endDate_not_in: [String!]
+  endDate_lt: String
+  endDate_lte: String
+  endDate_gt: String
+  endDate_gte: String
+  endDate_contains: String
+  endDate_not_contains: String
+  endDate_starts_with: String
+  endDate_not_starts_with: String
+  endDate_ends_with: String
+  endDate_not_ends_with: String
   events_every: EventWhereInput
   events_some: EventWhereInput
   events_none: EventWhereInput
+  traveler: UserWhereInput
   AND: [VacationWhereInput!]
   OR: [VacationWhereInput!]
   NOT: [VacationWhereInput!]

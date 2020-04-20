@@ -203,8 +203,6 @@ export type VacationOrderByInput =
   | "endDate_ASC"
   | "endDate_DESC";
 
-export type MutationType = "CREATED" | "UPDATED" | "DELETED";
-
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -217,74 +215,49 @@ export type UserOrderByInput =
   | "password_ASC"
   | "password_DESC";
 
-export interface EventUpdateManyDataInput {
-  date?: Maybe<DateTimeInput>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-}
+export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface VacationUpdateWithWhereUniqueNestedInput {
-  where: VacationWhereUniqueInput;
-  data: VacationUpdateDataInput;
+export interface VacationUpsertWithoutEventsInput {
+  update: VacationUpdateWithoutEventsDataInput;
+  create: VacationCreateWithoutEventsInput;
 }
-
-export type VacationWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
 
 export type EventWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface EventUpsertWithWhereUniqueNestedInput {
-  where: EventWhereUniqueInput;
-  update: EventUpdateDataInput;
-  create: EventCreateInput;
+export interface VacationCreateWithoutEventsInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  startDate: String;
+  endDate: String;
+  traveler?: Maybe<UserCreateOneWithoutVacationsInput>;
 }
 
-export interface EventSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<EventWhereInput>;
-  AND?: Maybe<EventSubscriptionWhereInput[] | EventSubscriptionWhereInput>;
-  OR?: Maybe<EventSubscriptionWhereInput[] | EventSubscriptionWhereInput>;
-  NOT?: Maybe<EventSubscriptionWhereInput[] | EventSubscriptionWhereInput>;
+export interface EventUpdateManyWithoutTripInput {
+  create?: Maybe<EventCreateWithoutTripInput[] | EventCreateWithoutTripInput>;
+  delete?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  set?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  disconnect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+  update?: Maybe<
+    | EventUpdateWithWhereUniqueWithoutTripInput[]
+    | EventUpdateWithWhereUniqueWithoutTripInput
+  >;
+  upsert?: Maybe<
+    | EventUpsertWithWhereUniqueWithoutTripInput[]
+    | EventUpsertWithWhereUniqueWithoutTripInput
+  >;
+  deleteMany?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
+  updateMany?: Maybe<
+    EventUpdateManyWithWhereNestedInput[] | EventUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface EventUpdateDataInput {
-  date?: Maybe<DateTimeInput>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
-  title?: Maybe<String>;
-  description?: Maybe<String>;
+export interface UserCreateOneWithoutVacationsInput {
+  create?: Maybe<UserCreateWithoutVacationsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
-
-export interface VacationUpdateInput {
-  title?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  endDate?: Maybe<DateTimeInput>;
-  events?: Maybe<EventUpdateManyInput>;
-}
-
-export interface EventUpdateWithWhereUniqueNestedInput {
-  where: EventWhereUniqueInput;
-  data: EventUpdateDataInput;
-}
-
-export interface VacationUpdateManyDataInput {
-  title?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  endDate?: Maybe<DateTimeInput>;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  username?: Maybe<String>;
-}>;
 
 export interface VacationWhereInput {
   id?: Maybe<ID_Input>;
@@ -315,199 +288,49 @@ export interface VacationWhereInput {
   title_not_starts_with?: Maybe<String>;
   title_ends_with?: Maybe<String>;
   title_not_ends_with?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  startDate_not?: Maybe<DateTimeInput>;
-  startDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startDate_lt?: Maybe<DateTimeInput>;
-  startDate_lte?: Maybe<DateTimeInput>;
-  startDate_gt?: Maybe<DateTimeInput>;
-  startDate_gte?: Maybe<DateTimeInput>;
-  endDate?: Maybe<DateTimeInput>;
-  endDate_not?: Maybe<DateTimeInput>;
-  endDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endDate_lt?: Maybe<DateTimeInput>;
-  endDate_lte?: Maybe<DateTimeInput>;
-  endDate_gt?: Maybe<DateTimeInput>;
-  endDate_gte?: Maybe<DateTimeInput>;
+  startDate?: Maybe<String>;
+  startDate_not?: Maybe<String>;
+  startDate_in?: Maybe<String[] | String>;
+  startDate_not_in?: Maybe<String[] | String>;
+  startDate_lt?: Maybe<String>;
+  startDate_lte?: Maybe<String>;
+  startDate_gt?: Maybe<String>;
+  startDate_gte?: Maybe<String>;
+  startDate_contains?: Maybe<String>;
+  startDate_not_contains?: Maybe<String>;
+  startDate_starts_with?: Maybe<String>;
+  startDate_not_starts_with?: Maybe<String>;
+  startDate_ends_with?: Maybe<String>;
+  startDate_not_ends_with?: Maybe<String>;
+  endDate?: Maybe<String>;
+  endDate_not?: Maybe<String>;
+  endDate_in?: Maybe<String[] | String>;
+  endDate_not_in?: Maybe<String[] | String>;
+  endDate_lt?: Maybe<String>;
+  endDate_lte?: Maybe<String>;
+  endDate_gt?: Maybe<String>;
+  endDate_gte?: Maybe<String>;
+  endDate_contains?: Maybe<String>;
+  endDate_not_contains?: Maybe<String>;
+  endDate_starts_with?: Maybe<String>;
+  endDate_not_starts_with?: Maybe<String>;
+  endDate_ends_with?: Maybe<String>;
+  endDate_not_ends_with?: Maybe<String>;
   events_every?: Maybe<EventWhereInput>;
   events_some?: Maybe<EventWhereInput>;
   events_none?: Maybe<EventWhereInput>;
+  traveler?: Maybe<UserWhereInput>;
   AND?: Maybe<VacationWhereInput[] | VacationWhereInput>;
   OR?: Maybe<VacationWhereInput[] | VacationWhereInput>;
   NOT?: Maybe<VacationWhereInput[] | VacationWhereInput>;
 }
 
-export interface EventCreateInput {
-  id?: Maybe<ID_Input>;
-  date: DateTimeInput;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
-  title: String;
-  description?: Maybe<String>;
-}
-
-export interface VacationUpsertWithWhereUniqueNestedInput {
-  where: VacationWhereUniqueInput;
-  update: VacationUpdateDataInput;
-  create: VacationCreateInput;
-}
-
-export interface EventUpdateInput {
-  date?: Maybe<DateTimeInput>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-}
-
-export interface EventUpdateManyMutationInput {
-  date?: Maybe<DateTimeInput>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-}
-
-export interface EventUpdateManyWithWhereNestedInput {
-  where: EventScalarWhereInput;
-  data: EventUpdateManyDataInput;
-}
-
-export interface EventUpdateManyInput {
-  create?: Maybe<EventCreateInput[] | EventCreateInput>;
-  update?: Maybe<
-    | EventUpdateWithWhereUniqueNestedInput[]
-    | EventUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | EventUpsertWithWhereUniqueNestedInput[]
-    | EventUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-  set?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-  disconnect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
-  deleteMany?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
-  updateMany?: Maybe<
-    EventUpdateManyWithWhereNestedInput[] | EventUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface VacationUpdateManyMutationInput {
-  title?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  endDate?: Maybe<DateTimeInput>;
-}
-
-export interface VacationUpdateDataInput {
-  title?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  endDate?: Maybe<DateTimeInput>;
-  events?: Maybe<EventUpdateManyInput>;
-}
-
-export interface VacationUpdateManyWithWhereNestedInput {
-  where: VacationScalarWhereInput;
-  data: VacationUpdateManyDataInput;
-}
-
-export interface UserCreateInput {
+export interface UserCreateWithoutVacationsInput {
   id?: Maybe<ID_Input>;
   username: String;
   name?: Maybe<String>;
   email?: Maybe<String>;
   password: String;
-  vacations?: Maybe<VacationCreateManyInput>;
-}
-
-export interface EventWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  date?: Maybe<DateTimeInput>;
-  date_not?: Maybe<DateTimeInput>;
-  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  date_lt?: Maybe<DateTimeInput>;
-  date_lte?: Maybe<DateTimeInput>;
-  date_gt?: Maybe<DateTimeInput>;
-  date_gte?: Maybe<DateTimeInput>;
-  startTime?: Maybe<DateTimeInput>;
-  startTime_not?: Maybe<DateTimeInput>;
-  startTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startTime_lt?: Maybe<DateTimeInput>;
-  startTime_lte?: Maybe<DateTimeInput>;
-  startTime_gt?: Maybe<DateTimeInput>;
-  startTime_gte?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
-  endTime_not?: Maybe<DateTimeInput>;
-  endTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endTime_lt?: Maybe<DateTimeInput>;
-  endTime_lte?: Maybe<DateTimeInput>;
-  endTime_gt?: Maybe<DateTimeInput>;
-  endTime_gte?: Maybe<DateTimeInput>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  AND?: Maybe<EventWhereInput[] | EventWhereInput>;
-  OR?: Maybe<EventWhereInput[] | EventWhereInput>;
-  NOT?: Maybe<EventWhereInput[] | EventWhereInput>;
-}
-
-export interface VacationCreateManyInput {
-  create?: Maybe<VacationCreateInput[] | VacationCreateInput>;
-  connect?: Maybe<VacationWhereUniqueInput[] | VacationWhereUniqueInput>;
 }
 
 export interface VacationSubscriptionWhereInput {
@@ -525,49 +348,79 @@ export interface VacationSubscriptionWhereInput {
   >;
 }
 
-export interface VacationUpdateManyInput {
-  create?: Maybe<VacationCreateInput[] | VacationCreateInput>;
-  update?: Maybe<
-    | VacationUpdateWithWhereUniqueNestedInput[]
-    | VacationUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | VacationUpsertWithWhereUniqueNestedInput[]
-    | VacationUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<VacationWhereUniqueInput[] | VacationWhereUniqueInput>;
-  connect?: Maybe<VacationWhereUniqueInput[] | VacationWhereUniqueInput>;
-  set?: Maybe<VacationWhereUniqueInput[] | VacationWhereUniqueInput>;
-  disconnect?: Maybe<VacationWhereUniqueInput[] | VacationWhereUniqueInput>;
-  deleteMany?: Maybe<VacationScalarWhereInput[] | VacationScalarWhereInput>;
-  updateMany?: Maybe<
-    | VacationUpdateManyWithWhereNestedInput[]
-    | VacationUpdateManyWithWhereNestedInput
-  >;
+export interface EventUpdateInput {
+  date?: Maybe<String>;
+  startTime?: Maybe<String>;
+  endTime?: Maybe<String>;
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  trip?: Maybe<VacationUpdateOneWithoutEventsInput>;
 }
 
-export interface UserUpdateInput {
+export interface EventSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<EventWhereInput>;
+  AND?: Maybe<EventSubscriptionWhereInput[] | EventSubscriptionWhereInput>;
+  OR?: Maybe<EventSubscriptionWhereInput[] | EventSubscriptionWhereInput>;
+  NOT?: Maybe<EventSubscriptionWhereInput[] | EventSubscriptionWhereInput>;
+}
+
+export interface VacationUpdateOneWithoutEventsInput {
+  create?: Maybe<VacationCreateWithoutEventsInput>;
+  update?: Maybe<VacationUpdateWithoutEventsDataInput>;
+  upsert?: Maybe<VacationUpsertWithoutEventsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<VacationWhereUniqueInput>;
+}
+
+export interface VacationUpdateInput {
+  title?: Maybe<String>;
+  startDate?: Maybe<String>;
+  endDate?: Maybe<String>;
+  events?: Maybe<EventUpdateManyWithoutTripInput>;
+  traveler?: Maybe<UserUpdateOneWithoutVacationsInput>;
+}
+
+export interface VacationUpdateWithoutEventsDataInput {
+  title?: Maybe<String>;
+  startDate?: Maybe<String>;
+  endDate?: Maybe<String>;
+  traveler?: Maybe<UserUpdateOneWithoutVacationsInput>;
+}
+
+export interface UserUpdateManyMutationInput {
   username?: Maybe<String>;
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
-  vacations?: Maybe<VacationUpdateManyInput>;
 }
 
-export interface EventCreateManyInput {
-  create?: Maybe<EventCreateInput[] | EventCreateInput>;
-  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+export interface UserUpdateOneWithoutVacationsInput {
+  create?: Maybe<UserCreateWithoutVacationsInput>;
+  update?: Maybe<UserUpdateWithoutVacationsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutVacationsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface VacationCreateInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  startDate: DateTimeInput;
-  endDate: DateTimeInput;
-  events?: Maybe<EventCreateManyInput>;
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  username?: Maybe<String>;
+}>;
+
+export interface UserUpdateWithoutVacationsDataInput {
+  username?: Maybe<String>;
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
 }
 
-export interface EventScalarWhereInput {
+export interface VacationScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -582,30 +435,6 @@ export interface EventScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  date?: Maybe<DateTimeInput>;
-  date_not?: Maybe<DateTimeInput>;
-  date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  date_lt?: Maybe<DateTimeInput>;
-  date_lte?: Maybe<DateTimeInput>;
-  date_gt?: Maybe<DateTimeInput>;
-  date_gte?: Maybe<DateTimeInput>;
-  startTime?: Maybe<DateTimeInput>;
-  startTime_not?: Maybe<DateTimeInput>;
-  startTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startTime_lt?: Maybe<DateTimeInput>;
-  startTime_lte?: Maybe<DateTimeInput>;
-  startTime_gt?: Maybe<DateTimeInput>;
-  startTime_gte?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
-  endTime_not?: Maybe<DateTimeInput>;
-  endTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endTime_lt?: Maybe<DateTimeInput>;
-  endTime_lte?: Maybe<DateTimeInput>;
-  endTime_gt?: Maybe<DateTimeInput>;
-  endTime_gte?: Maybe<DateTimeInput>;
   title?: Maybe<String>;
   title_not?: Maybe<String>;
   title_in?: Maybe<String[] | String>;
@@ -620,23 +449,92 @@ export interface EventScalarWhereInput {
   title_not_starts_with?: Maybe<String>;
   title_ends_with?: Maybe<String>;
   title_not_ends_with?: Maybe<String>;
+  startDate?: Maybe<String>;
+  startDate_not?: Maybe<String>;
+  startDate_in?: Maybe<String[] | String>;
+  startDate_not_in?: Maybe<String[] | String>;
+  startDate_lt?: Maybe<String>;
+  startDate_lte?: Maybe<String>;
+  startDate_gt?: Maybe<String>;
+  startDate_gte?: Maybe<String>;
+  startDate_contains?: Maybe<String>;
+  startDate_not_contains?: Maybe<String>;
+  startDate_starts_with?: Maybe<String>;
+  startDate_not_starts_with?: Maybe<String>;
+  startDate_ends_with?: Maybe<String>;
+  startDate_not_ends_with?: Maybe<String>;
+  endDate?: Maybe<String>;
+  endDate_not?: Maybe<String>;
+  endDate_in?: Maybe<String[] | String>;
+  endDate_not_in?: Maybe<String[] | String>;
+  endDate_lt?: Maybe<String>;
+  endDate_lte?: Maybe<String>;
+  endDate_gt?: Maybe<String>;
+  endDate_gte?: Maybe<String>;
+  endDate_contains?: Maybe<String>;
+  endDate_not_contains?: Maybe<String>;
+  endDate_starts_with?: Maybe<String>;
+  endDate_not_starts_with?: Maybe<String>;
+  endDate_ends_with?: Maybe<String>;
+  endDate_not_ends_with?: Maybe<String>;
+  AND?: Maybe<VacationScalarWhereInput[] | VacationScalarWhereInput>;
+  OR?: Maybe<VacationScalarWhereInput[] | VacationScalarWhereInput>;
+  NOT?: Maybe<VacationScalarWhereInput[] | VacationScalarWhereInput>;
+}
+
+export interface UserUpsertWithoutVacationsInput {
+  update: UserUpdateWithoutVacationsDataInput;
+  create: UserCreateWithoutVacationsInput;
+}
+
+export interface EventUpdateManyDataInput {
+  date?: Maybe<String>;
+  startTime?: Maybe<String>;
+  endTime?: Maybe<String>;
+  title?: Maybe<String>;
   description?: Maybe<String>;
-  description_not?: Maybe<String>;
-  description_in?: Maybe<String[] | String>;
-  description_not_in?: Maybe<String[] | String>;
-  description_lt?: Maybe<String>;
-  description_lte?: Maybe<String>;
-  description_gt?: Maybe<String>;
-  description_gte?: Maybe<String>;
-  description_contains?: Maybe<String>;
-  description_not_contains?: Maybe<String>;
-  description_starts_with?: Maybe<String>;
-  description_not_starts_with?: Maybe<String>;
-  description_ends_with?: Maybe<String>;
-  description_not_ends_with?: Maybe<String>;
-  AND?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
-  OR?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
-  NOT?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
+}
+
+export interface EventUpdateWithoutTripDataInput {
+  date?: Maybe<String>;
+  startTime?: Maybe<String>;
+  endTime?: Maybe<String>;
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+}
+
+export interface EventUpdateManyWithWhereNestedInput {
+  where: EventScalarWhereInput;
+  data: EventUpdateManyDataInput;
+}
+
+export interface EventUpdateManyMutationInput {
+  date?: Maybe<String>;
+  startTime?: Maybe<String>;
+  endTime?: Maybe<String>;
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+}
+
+export interface EventUpsertWithWhereUniqueWithoutTripInput {
+  where: EventWhereUniqueInput;
+  update: EventUpdateWithoutTripDataInput;
+  create: EventCreateWithoutTripInput;
+}
+
+export interface EventUpdateWithWhereUniqueWithoutTripInput {
+  where: EventWhereUniqueInput;
+  data: EventUpdateWithoutTripDataInput;
+}
+
+export interface EventCreateInput {
+  id?: Maybe<ID_Input>;
+  date: String;
+  startTime?: Maybe<String>;
+  endTime?: Maybe<String>;
+  title: String;
+  description?: Maybe<String>;
+  trip?: Maybe<VacationCreateOneWithoutEventsInput>;
 }
 
 export interface UserWhereInput {
@@ -718,7 +616,7 @@ export interface UserWhereInput {
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface VacationScalarWhereInput {
+export interface EventWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -733,6 +631,48 @@ export interface VacationScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
+  date?: Maybe<String>;
+  date_not?: Maybe<String>;
+  date_in?: Maybe<String[] | String>;
+  date_not_in?: Maybe<String[] | String>;
+  date_lt?: Maybe<String>;
+  date_lte?: Maybe<String>;
+  date_gt?: Maybe<String>;
+  date_gte?: Maybe<String>;
+  date_contains?: Maybe<String>;
+  date_not_contains?: Maybe<String>;
+  date_starts_with?: Maybe<String>;
+  date_not_starts_with?: Maybe<String>;
+  date_ends_with?: Maybe<String>;
+  date_not_ends_with?: Maybe<String>;
+  startTime?: Maybe<String>;
+  startTime_not?: Maybe<String>;
+  startTime_in?: Maybe<String[] | String>;
+  startTime_not_in?: Maybe<String[] | String>;
+  startTime_lt?: Maybe<String>;
+  startTime_lte?: Maybe<String>;
+  startTime_gt?: Maybe<String>;
+  startTime_gte?: Maybe<String>;
+  startTime_contains?: Maybe<String>;
+  startTime_not_contains?: Maybe<String>;
+  startTime_starts_with?: Maybe<String>;
+  startTime_not_starts_with?: Maybe<String>;
+  startTime_ends_with?: Maybe<String>;
+  startTime_not_ends_with?: Maybe<String>;
+  endTime?: Maybe<String>;
+  endTime_not?: Maybe<String>;
+  endTime_in?: Maybe<String[] | String>;
+  endTime_not_in?: Maybe<String[] | String>;
+  endTime_lt?: Maybe<String>;
+  endTime_lte?: Maybe<String>;
+  endTime_gt?: Maybe<String>;
+  endTime_gte?: Maybe<String>;
+  endTime_contains?: Maybe<String>;
+  endTime_not_contains?: Maybe<String>;
+  endTime_starts_with?: Maybe<String>;
+  endTime_not_starts_with?: Maybe<String>;
+  endTime_ends_with?: Maybe<String>;
+  endTime_not_ends_with?: Maybe<String>;
   title?: Maybe<String>;
   title_not?: Maybe<String>;
   title_in?: Maybe<String[] | String>;
@@ -747,33 +687,248 @@ export interface VacationScalarWhereInput {
   title_not_starts_with?: Maybe<String>;
   title_ends_with?: Maybe<String>;
   title_not_ends_with?: Maybe<String>;
-  startDate?: Maybe<DateTimeInput>;
-  startDate_not?: Maybe<DateTimeInput>;
-  startDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startDate_lt?: Maybe<DateTimeInput>;
-  startDate_lte?: Maybe<DateTimeInput>;
-  startDate_gt?: Maybe<DateTimeInput>;
-  startDate_gte?: Maybe<DateTimeInput>;
-  endDate?: Maybe<DateTimeInput>;
-  endDate_not?: Maybe<DateTimeInput>;
-  endDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endDate_lt?: Maybe<DateTimeInput>;
-  endDate_lte?: Maybe<DateTimeInput>;
-  endDate_gt?: Maybe<DateTimeInput>;
-  endDate_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<VacationScalarWhereInput[] | VacationScalarWhereInput>;
-  OR?: Maybe<VacationScalarWhereInput[] | VacationScalarWhereInput>;
-  NOT?: Maybe<VacationScalarWhereInput[] | VacationScalarWhereInput>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  trip?: Maybe<VacationWhereInput>;
+  AND?: Maybe<EventWhereInput[] | EventWhereInput>;
+  OR?: Maybe<EventWhereInput[] | EventWhereInput>;
+  NOT?: Maybe<EventWhereInput[] | EventWhereInput>;
 }
 
-export interface UserUpdateManyMutationInput {
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  username: String;
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  password: String;
+  vacations?: Maybe<VacationCreateManyWithoutTravelerInput>;
+}
+
+export interface VacationUpdateManyMutationInput {
+  title?: Maybe<String>;
+  startDate?: Maybe<String>;
+  endDate?: Maybe<String>;
+}
+
+export interface VacationCreateManyWithoutTravelerInput {
+  create?: Maybe<
+    VacationCreateWithoutTravelerInput[] | VacationCreateWithoutTravelerInput
+  >;
+  connect?: Maybe<VacationWhereUniqueInput[] | VacationWhereUniqueInput>;
+}
+
+export interface VacationUpdateManyDataInput {
+  title?: Maybe<String>;
+  startDate?: Maybe<String>;
+  endDate?: Maybe<String>;
+}
+
+export interface VacationCreateWithoutTravelerInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  startDate: String;
+  endDate: String;
+  events?: Maybe<EventCreateManyWithoutTripInput>;
+}
+
+export interface VacationUpsertWithWhereUniqueWithoutTravelerInput {
+  where: VacationWhereUniqueInput;
+  update: VacationUpdateWithoutTravelerDataInput;
+  create: VacationCreateWithoutTravelerInput;
+}
+
+export interface EventCreateManyWithoutTripInput {
+  create?: Maybe<EventCreateWithoutTripInput[] | EventCreateWithoutTripInput>;
+  connect?: Maybe<EventWhereUniqueInput[] | EventWhereUniqueInput>;
+}
+
+export interface EventScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  date?: Maybe<String>;
+  date_not?: Maybe<String>;
+  date_in?: Maybe<String[] | String>;
+  date_not_in?: Maybe<String[] | String>;
+  date_lt?: Maybe<String>;
+  date_lte?: Maybe<String>;
+  date_gt?: Maybe<String>;
+  date_gte?: Maybe<String>;
+  date_contains?: Maybe<String>;
+  date_not_contains?: Maybe<String>;
+  date_starts_with?: Maybe<String>;
+  date_not_starts_with?: Maybe<String>;
+  date_ends_with?: Maybe<String>;
+  date_not_ends_with?: Maybe<String>;
+  startTime?: Maybe<String>;
+  startTime_not?: Maybe<String>;
+  startTime_in?: Maybe<String[] | String>;
+  startTime_not_in?: Maybe<String[] | String>;
+  startTime_lt?: Maybe<String>;
+  startTime_lte?: Maybe<String>;
+  startTime_gt?: Maybe<String>;
+  startTime_gte?: Maybe<String>;
+  startTime_contains?: Maybe<String>;
+  startTime_not_contains?: Maybe<String>;
+  startTime_starts_with?: Maybe<String>;
+  startTime_not_starts_with?: Maybe<String>;
+  startTime_ends_with?: Maybe<String>;
+  startTime_not_ends_with?: Maybe<String>;
+  endTime?: Maybe<String>;
+  endTime_not?: Maybe<String>;
+  endTime_in?: Maybe<String[] | String>;
+  endTime_not_in?: Maybe<String[] | String>;
+  endTime_lt?: Maybe<String>;
+  endTime_lte?: Maybe<String>;
+  endTime_gt?: Maybe<String>;
+  endTime_gte?: Maybe<String>;
+  endTime_contains?: Maybe<String>;
+  endTime_not_contains?: Maybe<String>;
+  endTime_starts_with?: Maybe<String>;
+  endTime_not_starts_with?: Maybe<String>;
+  endTime_ends_with?: Maybe<String>;
+  endTime_not_ends_with?: Maybe<String>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  AND?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
+  OR?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
+  NOT?: Maybe<EventScalarWhereInput[] | EventScalarWhereInput>;
+}
+
+export interface EventCreateWithoutTripInput {
+  id?: Maybe<ID_Input>;
+  date: String;
+  startTime?: Maybe<String>;
+  endTime?: Maybe<String>;
+  title: String;
+  description?: Maybe<String>;
+}
+
+export interface VacationCreateOneWithoutEventsInput {
+  create?: Maybe<VacationCreateWithoutEventsInput>;
+  connect?: Maybe<VacationWhereUniqueInput>;
+}
+
+export interface VacationCreateInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  startDate: String;
+  endDate: String;
+  events?: Maybe<EventCreateManyWithoutTripInput>;
+  traveler?: Maybe<UserCreateOneWithoutVacationsInput>;
+}
+
+export interface VacationUpdateWithoutTravelerDataInput {
+  title?: Maybe<String>;
+  startDate?: Maybe<String>;
+  endDate?: Maybe<String>;
+  events?: Maybe<EventUpdateManyWithoutTripInput>;
+}
+
+export interface VacationUpdateWithWhereUniqueWithoutTravelerInput {
+  where: VacationWhereUniqueInput;
+  data: VacationUpdateWithoutTravelerDataInput;
+}
+
+export interface VacationUpdateManyWithoutTravelerInput {
+  create?: Maybe<
+    VacationCreateWithoutTravelerInput[] | VacationCreateWithoutTravelerInput
+  >;
+  delete?: Maybe<VacationWhereUniqueInput[] | VacationWhereUniqueInput>;
+  connect?: Maybe<VacationWhereUniqueInput[] | VacationWhereUniqueInput>;
+  set?: Maybe<VacationWhereUniqueInput[] | VacationWhereUniqueInput>;
+  disconnect?: Maybe<VacationWhereUniqueInput[] | VacationWhereUniqueInput>;
+  update?: Maybe<
+    | VacationUpdateWithWhereUniqueWithoutTravelerInput[]
+    | VacationUpdateWithWhereUniqueWithoutTravelerInput
+  >;
+  upsert?: Maybe<
+    | VacationUpsertWithWhereUniqueWithoutTravelerInput[]
+    | VacationUpsertWithWhereUniqueWithoutTravelerInput
+  >;
+  deleteMany?: Maybe<VacationScalarWhereInput[] | VacationScalarWhereInput>;
+  updateMany?: Maybe<
+    | VacationUpdateManyWithWhereNestedInput[]
+    | VacationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpdateInput {
   username?: Maybe<String>;
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
+  vacations?: Maybe<VacationUpdateManyWithoutTravelerInput>;
 }
+
+export interface VacationUpdateManyWithWhereNestedInput {
+  where: VacationScalarWhereInput;
+  data: VacationUpdateManyDataInput;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export type VacationWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface NodeNode {
   id: ID_Output;
@@ -782,8 +937,8 @@ export interface NodeNode {
 export interface VacationPreviousValues {
   id: ID_Output;
   title: String;
-  startDate: DateTimeOutput;
-  endDate: DateTimeOutput;
+  startDate: String;
+  endDate: String;
 }
 
 export interface VacationPreviousValuesPromise
@@ -791,8 +946,8 @@ export interface VacationPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
-  startDate: () => Promise<DateTimeOutput>;
-  endDate: () => Promise<DateTimeOutput>;
+  startDate: () => Promise<String>;
+  endDate: () => Promise<String>;
 }
 
 export interface VacationPreviousValuesSubscription
@@ -800,25 +955,243 @@ export interface VacationPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   title: () => Promise<AsyncIterator<String>>;
-  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  startDate: () => Promise<AsyncIterator<String>>;
+  endDate: () => Promise<AsyncIterator<String>>;
 }
 
-export interface EventEdge {
-  node: Event;
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface EventConnection {
+  pageInfo: PageInfo;
+  edges: EventEdge[];
+}
+
+export interface EventConnectionPromise
+  extends Promise<EventConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<EventEdge>>() => T;
+  aggregate: <T = AggregateEventPromise>() => T;
+}
+
+export interface EventConnectionSubscription
+  extends Promise<AsyncIterator<EventConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<EventEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateEventSubscription>() => T;
+}
+
+export interface AggregateVacation {
+  count: Int;
+}
+
+export interface AggregateVacationPromise
+  extends Promise<AggregateVacation>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateVacationSubscription
+  extends Promise<AsyncIterator<AggregateVacation>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Vacation {
+  id: ID_Output;
+  title: String;
+  startDate: String;
+  endDate: String;
+}
+
+export interface VacationPromise extends Promise<Vacation>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  startDate: () => Promise<String>;
+  endDate: () => Promise<String>;
+  events: <T = FragmentableArray<Event>>(args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  traveler: <T = UserPromise>() => T;
+}
+
+export interface VacationSubscription
+  extends Promise<AsyncIterator<Vacation>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  startDate: () => Promise<AsyncIterator<String>>;
+  endDate: () => Promise<AsyncIterator<String>>;
+  events: <T = Promise<AsyncIterator<EventSubscription>>>(args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  traveler: <T = UserSubscription>() => T;
+}
+
+export interface VacationNullablePromise
+  extends Promise<Vacation | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  startDate: () => Promise<String>;
+  endDate: () => Promise<String>;
+  events: <T = FragmentableArray<Event>>(args?: {
+    where?: EventWhereInput;
+    orderBy?: EventOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  traveler: <T = UserPromise>() => T;
+}
+
+export interface VacationConnection {
+  pageInfo: PageInfo;
+  edges: VacationEdge[];
+}
+
+export interface VacationConnectionPromise
+  extends Promise<VacationConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<VacationEdge>>() => T;
+  aggregate: <T = AggregateVacationPromise>() => T;
+}
+
+export interface VacationConnectionSubscription
+  extends Promise<AsyncIterator<VacationConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<VacationEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateVacationSubscription>() => T;
+}
+
+export interface Event {
+  id: ID_Output;
+  date: String;
+  startTime?: String;
+  endTime?: String;
+  title: String;
+  description?: String;
+}
+
+export interface EventPromise extends Promise<Event>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  date: () => Promise<String>;
+  startTime: () => Promise<String>;
+  endTime: () => Promise<String>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  trip: <T = VacationPromise>() => T;
+}
+
+export interface EventSubscription
+  extends Promise<AsyncIterator<Event>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  date: () => Promise<AsyncIterator<String>>;
+  startTime: () => Promise<AsyncIterator<String>>;
+  endTime: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  trip: <T = VacationSubscription>() => T;
+}
+
+export interface EventNullablePromise
+  extends Promise<Event | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  date: () => Promise<String>;
+  startTime: () => Promise<String>;
+  endTime: () => Promise<String>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  trip: <T = VacationPromise>() => T;
+}
+
+export interface UserEdge {
+  node: User;
   cursor: String;
 }
 
-export interface EventEdgePromise extends Promise<EventEdge>, Fragmentable {
-  node: <T = EventPromise>() => T;
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface EventEdgeSubscription
-  extends Promise<AsyncIterator<EventEdge>>,
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
     Fragmentable {
-  node: <T = EventSubscription>() => T;
+  node: <T = UserSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -846,145 +1219,29 @@ export interface UserSubscriptionPayloadSubscription
   previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface VacationEdge {
-  node: Vacation;
-  cursor: String;
-}
-
-export interface VacationEdgePromise
-  extends Promise<VacationEdge>,
-    Fragmentable {
-  node: <T = VacationPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface VacationEdgeSubscription
-  extends Promise<AsyncIterator<VacationEdge>>,
-    Fragmentable {
-  node: <T = VacationSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateUser {
-  count: Int;
-}
-
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface EventConnection {
-  pageInfo: PageInfo;
-  edges: EventEdge[];
-}
-
-export interface EventConnectionPromise
-  extends Promise<EventConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<EventEdge>>() => T;
-  aggregate: <T = AggregateEventPromise>() => T;
-}
-
-export interface EventConnectionSubscription
-  extends Promise<AsyncIterator<EventConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<EventEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateEventSubscription>() => T;
-}
-
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
-}
-
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
-}
-
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
-}
-
-export interface VacationSubscriptionPayload {
+export interface EventSubscriptionPayload {
   mutation: MutationType;
-  node: Vacation;
+  node: Event;
   updatedFields: String[];
-  previousValues: VacationPreviousValues;
+  previousValues: EventPreviousValues;
 }
 
-export interface VacationSubscriptionPayloadPromise
-  extends Promise<VacationSubscriptionPayload>,
+export interface EventSubscriptionPayloadPromise
+  extends Promise<EventSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = VacationPromise>() => T;
+  node: <T = EventPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = VacationPreviousValuesPromise>() => T;
+  previousValues: <T = EventPreviousValuesPromise>() => T;
 }
 
-export interface VacationSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<VacationSubscriptionPayload>>,
+export interface EventSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<EventSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = VacationSubscription>() => T;
+  node: <T = EventSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = VacationPreviousValuesSubscription>() => T;
+  previousValues: <T = EventPreviousValuesSubscription>() => T;
 }
 
 export interface User {
@@ -1050,6 +1307,110 @@ export interface UserNullablePromise
   }) => T;
 }
 
+export interface EventPreviousValues {
+  id: ID_Output;
+  date: String;
+  startTime?: String;
+  endTime?: String;
+  title: String;
+  description?: String;
+}
+
+export interface EventPreviousValuesPromise
+  extends Promise<EventPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  date: () => Promise<String>;
+  startTime: () => Promise<String>;
+  endTime: () => Promise<String>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+}
+
+export interface EventPreviousValuesSubscription
+  extends Promise<AsyncIterator<EventPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  date: () => Promise<AsyncIterator<String>>;
+  startTime: () => Promise<AsyncIterator<String>>;
+  endTime: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateEvent {
+  count: Int;
+}
+
+export interface AggregateEventPromise
+  extends Promise<AggregateEvent>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateEventSubscription
+  extends Promise<AsyncIterator<AggregateEvent>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface EventEdge {
+  node: Event;
+  cursor: String;
+}
+
+export interface EventEdgePromise extends Promise<EventEdge>, Fragmentable {
+  node: <T = EventPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface EventEdgeSubscription
+  extends Promise<AsyncIterator<EventEdge>>,
+    Fragmentable {
+  node: <T = EventSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface VacationEdge {
+  node: Vacation;
+  cursor: String;
+}
+
+export interface VacationEdgePromise
+  extends Promise<VacationEdge>,
+    Fragmentable {
+  node: <T = VacationPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface VacationEdgeSubscription
+  extends Promise<AsyncIterator<VacationEdge>>,
+    Fragmentable {
+  node: <T = VacationSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
 export interface UserPreviousValues {
   id: ID_Output;
   username: String;
@@ -1078,248 +1439,32 @@ export interface UserPreviousValuesSubscription
   password: () => Promise<AsyncIterator<String>>;
 }
 
-export interface EventPreviousValues {
-  id: ID_Output;
-  date: DateTimeOutput;
-  startTime?: DateTimeOutput;
-  endTime?: DateTimeOutput;
-  title: String;
-  description?: String;
-}
-
-export interface EventPreviousValuesPromise
-  extends Promise<EventPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  date: () => Promise<DateTimeOutput>;
-  startTime: () => Promise<DateTimeOutput>;
-  endTime: () => Promise<DateTimeOutput>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-}
-
-export interface EventPreviousValuesSubscription
-  extends Promise<AsyncIterator<EventPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  startTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  endTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-}
-
-export interface EventSubscriptionPayload {
+export interface VacationSubscriptionPayload {
   mutation: MutationType;
-  node: Event;
+  node: Vacation;
   updatedFields: String[];
-  previousValues: EventPreviousValues;
+  previousValues: VacationPreviousValues;
 }
 
-export interface EventSubscriptionPayloadPromise
-  extends Promise<EventSubscriptionPayload>,
+export interface VacationSubscriptionPayloadPromise
+  extends Promise<VacationSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = EventPromise>() => T;
+  node: <T = VacationPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = EventPreviousValuesPromise>() => T;
+  previousValues: <T = VacationPreviousValuesPromise>() => T;
 }
 
-export interface EventSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<EventSubscriptionPayload>>,
+export interface VacationSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<VacationSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = EventSubscription>() => T;
+  node: <T = VacationSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = EventPreviousValuesSubscription>() => T;
+  previousValues: <T = VacationPreviousValuesSubscription>() => T;
 }
-
-export interface Event {
-  id: ID_Output;
-  date: DateTimeOutput;
-  startTime?: DateTimeOutput;
-  endTime?: DateTimeOutput;
-  title: String;
-  description?: String;
-}
-
-export interface EventPromise extends Promise<Event>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  date: () => Promise<DateTimeOutput>;
-  startTime: () => Promise<DateTimeOutput>;
-  endTime: () => Promise<DateTimeOutput>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-}
-
-export interface EventSubscription
-  extends Promise<AsyncIterator<Event>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  startTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  endTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-}
-
-export interface EventNullablePromise
-  extends Promise<Event | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  date: () => Promise<DateTimeOutput>;
-  startTime: () => Promise<DateTimeOutput>;
-  endTime: () => Promise<DateTimeOutput>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-}
-
-export interface AggregateEvent {
-  count: Int;
-}
-
-export interface AggregateEventPromise
-  extends Promise<AggregateEvent>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateEventSubscription
-  extends Promise<AsyncIterator<AggregateEvent>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface Vacation {
-  id: ID_Output;
-  title: String;
-  startDate: DateTimeOutput;
-  endDate: DateTimeOutput;
-}
-
-export interface VacationPromise extends Promise<Vacation>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  startDate: () => Promise<DateTimeOutput>;
-  endDate: () => Promise<DateTimeOutput>;
-  events: <T = FragmentableArray<Event>>(args?: {
-    where?: EventWhereInput;
-    orderBy?: EventOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface VacationSubscription
-  extends Promise<AsyncIterator<Vacation>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
-  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
-  events: <T = Promise<AsyncIterator<EventSubscription>>>(args?: {
-    where?: EventWhereInput;
-    orderBy?: EventOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface VacationNullablePromise
-  extends Promise<Vacation | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  startDate: () => Promise<DateTimeOutput>;
-  endDate: () => Promise<DateTimeOutput>;
-  events: <T = FragmentableArray<Event>>(args?: {
-    where?: EventWhereInput;
-    orderBy?: EventOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface VacationConnection {
-  pageInfo: PageInfo;
-  edges: VacationEdge[];
-}
-
-export interface VacationConnectionPromise
-  extends Promise<VacationConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<VacationEdge>>() => T;
-  aggregate: <T = AggregateVacationPromise>() => T;
-}
-
-export interface VacationConnectionSubscription
-  extends Promise<AsyncIterator<VacationConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<VacationEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateVacationSubscription>() => T;
-}
-
-export interface AggregateVacation {
-  count: Int;
-}
-
-export interface AggregateVacationPromise
-  extends Promise<AggregateVacation>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateVacationSubscription
-  extends Promise<AsyncIterator<AggregateVacation>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 export type Long = string;
-
-/*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -1327,14 +1472,20 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
-DateTime scalar input type, allowing Date
+The `Boolean` scalar type represents `true` or `false`.
 */
-export type DateTimeInput = Date | string;
+export type Boolean = boolean;
 
 /*
-DateTime scalar output type, which is always a string
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
-export type DateTimeOutput = string;
+export type Int = number;
+
+/*
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+*/
+export type ID_Input = string | number;
+export type ID_Output = string;
 
 /**
  * Model Metadata
