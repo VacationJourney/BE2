@@ -1,12 +1,31 @@
+const { GraphQLScalarType, Kind } = require('graphql');
 const bcrypt = require('bcryptjs');
 const signToken = require('./signToken');
 
 const resolvers = {
+	// Date: new GraphQLScalarType({
+	// 	name: 'Date',
+	// 	description: 'Date custom scalar type',
+	// 	parseValue(value) {
+	// 		return new Date(value); // value from the client
+	// 	},
+	// 	serialize(value) {
+	// 		return value.getTime(); // value sent to the client
+	// 	},
+	// 	parseLiteral(ast) {
+	// 		if (ast.kind === Kind.INT) {
+	// 			return new Date(+ast.value); // ast value is always in string format
+	// 		}
+	// 		return null;
+	// 	},
+	// }),
 	Mutation: {
-		signUp: async (parent, { username, password }, ctx, info) => {
+		signUp: async (parent, { username, name, email, password }, ctx, info) => {
 			const hashedPassword = await bcrypt.hash(password, 10);
 			const user = await ctx.prisma.createUser({
 				username,
+				name,
+				email,
 				password: hashedPassword,
 			});
 			return user;
@@ -31,6 +50,27 @@ const resolvers = {
 				user,
 			};
 		},
+		newVacation: async (parent, args, ctx, info) => {
+			const vacation = await ctx.prisma.createVacation({
+				title: args.title,
+				startDate: args.startDate,
+				endDate: args.endDate,
+				traveler: {
+					connect: { id: args.userId },
+				},
+			});
+			return vacation;
+		},
+		newEvent: async (parent, args, ctx, info) => {
+			const event = await ctx.prisma.createEvent({
+				date: args.date,
+				title: args.title,
+				trip: {
+					connect: { id: args.vacationId },
+				},
+			});
+			return event;
+		},
 	},
 	Query: {
 		currentUser: (parent, args, { user, prisma }) => {
@@ -40,7 +80,34 @@ const resolvers = {
 			}
 			return prisma.user({ id: user.id });
 		},
+		users(root, args, context) {
+			return context.prisma.users()
+		  },
+		userVacations: (parent, args, {user, prisma}) => {
+			return prisma.user({ id: user.id }).vacations();
+		},
 	},
+	User: {
+		vacations(parent, args, ctx) {
+			return ctx.prisma.user({
+				id: parent.id
+			}).vacations()
+		}
+	},
+	Vacation: {
+		events(parent, args, ctx) {
+			return ctx.prisma.vacation({
+				id: parent.id
+			}).events()
+		}
+	},
+	Event: {
+		trip(parent, args, ctx) {
+			return ctx.prisma.event({
+				id: parent.id
+			}).trip()
+		}
+	}
 };
 
 module.exports = resolvers;
