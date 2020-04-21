@@ -27,7 +27,7 @@ const typeDefs = gql`
 		startTime: String
 		endTime: String
 		description: String
-    	trip: Vacation
+		trip: Vacation
 	}
 
 	type Query {
@@ -56,15 +56,18 @@ const typeDefs = gql`
 			userId: ID!
 		): Vacation!
 
+		deleteTrip(id: ID!): Vacation
+
 		newEvent(
 			date: String!
 			startTime: String
 			endTime: String
 			title: String!
 			description: String
-			vacationId: ID! 
+			vacationId: ID!
 		): Event!
 
+		deleteActivity(id: ID!): Event
 	}
 
 	type LoginResponse {

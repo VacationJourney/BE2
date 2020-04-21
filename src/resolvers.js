@@ -61,6 +61,12 @@ const resolvers = {
 			});
 			return vacation;
 		},
+		deleteTrip(parent, { id }, ctx, info) {
+			return ctx.prisma.deleteVacation(
+			{ id },
+			  info
+			);
+		  },
 		newEvent: async (parent, args, ctx, info) => {
 			const event = await ctx.prisma.createEvent({
 				date: args.date,
@@ -71,6 +77,12 @@ const resolvers = {
 			});
 			return event;
 		},
+		deleteActivity(parent, { id }, ctx, info) {
+			return ctx.prisma.deleteEvent(
+			{ id },
+			  info
+			);
+		  },
 	},
 	Query: {
 		currentUser: (parent, args, { user, prisma }) => {
@@ -81,33 +93,39 @@ const resolvers = {
 			return prisma.user({ id: user.id });
 		},
 		users(root, args, context) {
-			return context.prisma.users()
-		  },
-		userVacations: (parent, args, {user, prisma}) => {
+			return context.prisma.users();
+		},
+		userVacations: (parent, args, { user, prisma }) => {
 			return prisma.user({ id: user.id }).vacations();
 		},
 	},
 	User: {
 		vacations(parent, args, ctx) {
-			return ctx.prisma.user({
-				id: parent.id
-			}).vacations()
-		}
+			return ctx.prisma
+				.user({
+					id: parent.id,
+				})
+				.vacations();
+		},
 	},
 	Vacation: {
 		events(parent, args, ctx) {
-			return ctx.prisma.vacation({
-				id: parent.id
-			}).events()
-		}
+			return ctx.prisma
+				.vacation({
+					id: parent.id,
+				})
+				.events();
+		},
 	},
 	Event: {
 		trip(parent, args, ctx) {
-			return ctx.prisma.event({
-				id: parent.id
-			}).trip()
-		}
-	}
+			return ctx.prisma
+				.event({
+					id: parent.id,
+				})
+				.trip();
+		},
+	},
 };
 
 module.exports = resolvers;
