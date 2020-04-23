@@ -38,13 +38,22 @@ const typeDefs = gql`
 
 	type Mutation {
 		signUp(
-			username: String!
 			name: String
 			email: String
 			password: String!
 		): User!
 
 		login(username: String!, password: String!): LoginResponse!
+
+		userChanges(
+			id:ID!
+			username: String
+			name: String
+			email: String
+			password: String
+			): User!
+
+		deleteUser(id: ID!): User!
 
 		newVacation(
 			title: String!
@@ -53,7 +62,14 @@ const typeDefs = gql`
 			userId: ID!
 		): Vacation!
 
-		deleteTrip(id: ID!): Vacation
+		vacationChanges(
+			id: ID!
+			title: String!
+			startDate: String!
+			endDate: String!
+		): Vacation!
+
+		deleteTrip(id: ID!): Vacation!
 
 		newEvent(
 			date: String!
@@ -64,7 +80,16 @@ const typeDefs = gql`
 			vacationId: ID!
 		): Event!
 
-		deleteActivity(id: ID!): Event
+		eventChanges(
+			id: ID!
+			date: String!
+			startTime: String
+			endTime: String
+			title: String!
+			description: String
+		): Event!
+
+		deleteActivity(id: ID!): Event!
 	}
 
 	type LoginResponse {

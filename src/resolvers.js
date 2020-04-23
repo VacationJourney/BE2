@@ -4,6 +4,7 @@ const signToken = require('./signToken');
 
 const resolvers = {
 	Mutation: {
+		// For the Users
 		signUp: async (parent, { username, name, email, password }, ctx, info) => {
 			const hashedPassword = await bcrypt.hash(password, 10);
 			const user = await ctx.prisma.createUser({
@@ -34,8 +35,28 @@ const resolvers = {
 				user,
 			};
 		},
-		newVacation: async (parent, args, ctx, info) => {
-			const vacation = await ctx.prisma.createVacation({
+
+		userChanges: async (
+			parent,
+			{ id, username, name, email, password },
+			{ prisma },
+			info
+		) => {
+			const hashedPassword = await bcrypt.hash(password, 10);
+			const changes = await prisma.updateUser({
+				data: { username, name, email, password: hashedPassword },
+				where: { id },
+			});
+			return changes;
+		},
+
+		deleteUser: async (parent, args, { user, prisma }, info) => {
+			return prisma.deleteUser({ id: user.id });
+		},
+
+		// for the vacations
+		newVacation: async (parent, args, { prisma }, info) => {
+			const vacation = await prisma.createVacation({
 				title: args.title,
 				startDate: args.startDate,
 				endDate: args.endDate,
@@ -45,11 +66,27 @@ const resolvers = {
 			});
 			return vacation;
 		},
-		deleteTrip(parent, { id }, ctx, info) {
-			return ctx.prisma.deleteVacation({ id }, info);
+
+		vacationChanges: async (
+			parent,
+			{ id, title, startDate, endDate },
+			{ prisma },
+			info
+		) => {
+			const changes = await prisma.updateVacation({
+				data: { title, startDate, endDate },
+				where: { id },
+			});
+			return changes;
 		},
-		newEvent: async (parent, args, ctx, info) => {
-			const event = await ctx.prisma.createEvent({
+
+		deleteTrip(parent, { id }, { prisma }, info) {
+			return prisma.deleteVacation({ id }, info);
+		},
+
+		// for the events
+		newEvent: async (parent, args, { prisma }, info) => {
+			const event = await prisma.createEvent({
 				date: args.date,
 				title: args.title,
 				trip: {
@@ -58,8 +95,21 @@ const resolvers = {
 			});
 			return event;
 		},
-		deleteActivity(parent, { id }, ctx, info) {
-			return ctx.prisma.deleteEvent({ id }, info);
+
+		eventChanges: async (
+			parent,
+			{ id, date, startTime, endTime, title, description },
+			{ prisma },
+			info
+		) => {
+			const event = await prisma.updateEvent({
+				data: { date, startTime, endTime, title, description },
+				where: { id },
+			});
+			return event;
+		},
+		deleteActivity(parent, { id }, { prisma }, info) {
+			return prisma.deleteEvent({ id }, info);
 		},
 	},
 	Query: {
@@ -73,16 +123,16 @@ const resolvers = {
 		userVacations: (parent, args, { user, prisma }) => {
 			return prisma.user({ id: user.id }).vacations();
 		},
-		currentVacation: (parent, {id}, { prisma }) => {
-			return prisma.vacation({id});
+		currentVacation: (parent, { id }, { prisma }) => {
+			return prisma.vacation({ id });
 		},
-		eventInfo: (parent, {id}, {prisma}) => {
-			return prisma.event({id})
-		}
+		eventInfo: (parent, { id }, { prisma }) => {
+			return prisma.event({ id });
+		},
 	},
 	User: {
-		vacations(parent, args, ctx) {
-			return ctx.prisma
+		vacations(parent, args, { prisma }) {
+			return prisma
 				.user({
 					id: parent.id,
 				})
@@ -90,8 +140,8 @@ const resolvers = {
 		},
 	},
 	Vacation: {
-		events(parent, args, ctx) {
-			return ctx.prisma
+		events(parent, args, { prisma }) {
+			return prisma
 				.vacation({
 					id: parent.id,
 				})
@@ -99,8 +149,8 @@ const resolvers = {
 		},
 	},
 	Event: {
-		trip(parent, args, ctx) {
-			return ctx.prisma
+		trip(parent, args, { prisma }) {
+			return prisma
 				.event({
 					id: parent.id,
 				})
