@@ -1,7 +1,6 @@
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
-	# scalar Date
 
 	type User {
 		id: ID!
@@ -23,7 +22,7 @@ const typeDefs = gql`
 	type Event {
 		id: ID!
 		title: String!
-		date: String!
+		date: String
 		startTime: String
 		endTime: String
 		description: String
@@ -31,12 +30,10 @@ const typeDefs = gql`
 	}
 
 	type Query {
-		users: [User!]!
 		currentUser: User!
 		userVacations: [Vacation!]!
-		currentVacation: Vacation!
-		dayEvents: [Event!]!
-		eventInfo: Event!
+		currentVacation(id: ID!): Vacation!
+		eventInfo(id: ID!): Event!
 	}
 
 	type Mutation {
