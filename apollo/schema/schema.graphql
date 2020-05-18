@@ -1,0 +1,28 @@
+# import Query.event from "generated/prisma.graphql"
+# import Query.vacation from "generated/prisma.graphql"
+# import Query.vacations from "generated/prisma.graphql"
+
+# import Mutation.createEvent from "generated/prisma.graphql"
+# import Mutation.updateEvent from "generated/prisma.graphql"
+# import Mutation.deleteEvent from "generated/prisma.graphql"
+
+# import Mutation.updateUser from "generated/prisma.graphql"
+# import Mutation.deleteUser from "generated/prisma.graphql"
+
+# import Mutation.createVacation from "generated/prisma.graphql"
+# import Mutation.updateVacation from "generated/prisma.graphql"
+# import Mutation.deleteVacation from "generated/prisma.graphql"
+
+type LoginResponse {
+	token: String
+	user: User
+}
+
+type Mutation {
+	signUp(username: String!, password: String!): User!
+	login(username: String!, password: String!): LoginResponse!
+}
+type Query {
+  currentUser: User!
+}
+
