@@ -1,7 +1,21 @@
 # dependencies
+apollo/schema/generated
+apollo/node_modules
+apollo/src/generated/prisma-client
+prisma/node_modules
+
+# dotenv environment variables file
+.env
 /node_modules
 
 # misc
 .DS_Store
 .vscode/
-.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
