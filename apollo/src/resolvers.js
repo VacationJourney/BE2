@@ -35,7 +35,7 @@ const resolvers = {
 			};
 		},
 
-		updateUser: async (
+		userUpdate: async (
 			parent,
 			{ id, username, name, email, password },
 			{ prisma },
@@ -44,13 +44,13 @@ const resolvers = {
 			const hashedPassword = await bcrypt.hash(password, 10);
 			const changes = await prisma.updateUser({
 				data: { username, name, email, password: hashedPassword },
-				where: { id },
+				where: {id} ,
 			});
 			return changes;
 		},
 
 		deleteUser: async (parent, args, { user, prisma }, info) => {
-			return prisma.deleteUser({ id: user.id });
+			return prisma.deleteUser(args.where);
 		},
 
 		// for the vacations
@@ -61,47 +61,32 @@ const resolvers = {
 
 		updateVacation: async (
 			parent,
-			{ id, title, startDate, endDate },
+			args,
 			{ prisma },
 			info
 		) => {
-			const changes = await prisma.updateVacation({
-				data: { title, startDate, endDate },
-				where: { id },
-			});
+			const changes = await prisma.updateVacation(args);
 			return changes;
 		},
 
-		deleteVacation(parent, { id }, { prisma }, info) {
-			return prisma.deleteVacation({ id }, info);
+		deleteVacation(parent, args, { prisma }, info) {
+			return prisma.deleteVacation(args.where);
 		},
 
 		// for the events
 		createEvent: async (parent, args, { prisma }, info) => {
-			const event = await prisma.createEvent({
-				date: args.date,
-				title: args.title,
-				trip: {
-					connect: { id: args.vacationId },
-				},
-			});
+			const event = await prisma.createEvent(args.data)
+			
 			return event;
 		},
 
 		updateEvent: async (
-			parent,
-			{ id, date, startTime, endTime, title, description },
-			{ prisma },
-			info
-		) => {
-			const event = await prisma.updateEvent({
-				data: { date, startTime, endTime, title, description },
-				where: { id },
-			});
+			parent, args, { prisma }, info) => {
+			const event = await prisma.updateEvent(args);
 			return event;
 		},
-		deleteEvent(parent, { id }, { prisma }, info) {
-			return prisma.deleteEvent({ id }, info);
+		deleteEvent(parent, args, { prisma }, info) {
+			return prisma.deleteEvent(args.where);
 		},
 	},
 	Query: {
@@ -115,11 +100,11 @@ const resolvers = {
 		vacations: (parent, args, { user, prisma }) => {
 			return prisma.user({ id: user.id }).vacations();
 		},
-		vacation: (parent, { id }, { prisma }) => {
-			return prisma.vacation({ id });
+		vacation: (parent, args, { prisma }) => {
+			return prisma.vacation(args.where);
 		},
-		event: (parent, { id }, { prisma }) => {
-			return prisma.event({ id });
+		event: (parent, args, { prisma }) => {
+			return prisma.event(args.where);
 		},
 	},
 	User: {
