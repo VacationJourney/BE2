@@ -4,10 +4,10 @@ const { ApolloServer, gql } = require('apollo-server');
 const { importSchema } = require('graphql-import')
 
 const resolvers = require('./apollo/src/resolvers');
-const { prisma } = require('../apollo/src/generated/prisma-client');
-const jwt = require('jsonwebtoken')
+const { prisma } = require('./apollo/src/generated/prisma-client');
+const typeDefs = importSchema('./apollo/schema/schema.graphql')
 
-const typeDefs = await importSchema('apollo/schema/schema.graphql')
+const jwt = require('jsonwebtoken')
 
 const getUser = token => {
   try {
@@ -37,6 +37,6 @@ const server = new ApolloServer({
 
 server
   .listen({
-    port: 4000
+    port: 4001
   })
   .then(info => console.log(`Server started on http://localhost:${info.port} 🚀`));
