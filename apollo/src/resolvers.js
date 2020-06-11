@@ -1,18 +1,22 @@
+const { AuthenticationError } = require('apollo-server');
 const bcrypt = require('bcryptjs');
 const signToken = require('./signToken');
 
 const resolvers = {
 	Mutation: {
 		// For the Users
-		signUp: async (parent, { username, name, email, password }, ctx, info) => {
-			const hashedPassword = await bcrypt.hash(password, 10);
-			const user = await ctx.prisma.createUser({
-				username,
-				name,
-				email,
-				password: hashedPassword,
-			});
-			return user;
+		signUp: async (parent, { username, email, password }, ctx, info) => {
+			if (!username && !password) {
+				return;
+			} else {
+				const hashedPassword = await bcrypt.hash(password, 10);
+				const user = await ctx.prisma.createUser({
+					username,
+					email,
+					password: hashedPassword,
+				});
+				return user;
+			}
 		},
 		login: async (parent, { username, password }, ctx, info) => {
 			const user = await ctx.prisma.user({ username });
@@ -37,14 +41,14 @@ const resolvers = {
 
 		userUpdate: async (
 			parent,
-			{ id, username, name, email, password },
+			{ id, username, email, password },
 			{ prisma },
 			info
 		) => {
 			const hashedPassword = await bcrypt.hash(password, 10);
 			const changes = await prisma.updateUser({
 				data: { username, name, email, password: hashedPassword },
-				where: {id} ,
+				where: { id },
 			});
 			return changes;
 		},
@@ -59,12 +63,7 @@ const resolvers = {
 			return vacation;
 		},
 
-		updateVacation: async (
-			parent,
-			args,
-			{ prisma },
-			info
-		) => {
+		updateVacation: async (parent, args, { prisma }, info) => {
 			const changes = await prisma.updateVacation(args);
 			return changes;
 		},
@@ -75,13 +74,12 @@ const resolvers = {
 
 		// for the events
 		createEvent: async (parent, args, { prisma }, info) => {
-			const event = await prisma.createEvent(args.data)
-			
+			const event = await prisma.createEvent(args.data);
+
 			return event;
 		},
 
-		updateEvent: async (
-			parent, args, { prisma }, info) => {
+		updateEvent: async (parent, args, { prisma }, info) => {
 			const event = await prisma.updateEvent(args);
 			return event;
 		},
@@ -97,11 +95,17 @@ const resolvers = {
 			}
 			return prisma.user({ id: user.id });
 		},
-		vacations: (parent, args, { user, prisma }) => {
-			return prisma.user({ id: user.id }).vacations();
+		vacations: async (parent, args, { user, prisma }) => {
+			if(!user){
+				throw new Error('Not Authenticated');
+			}
+			return await prisma.user({ id: user.id }).vacations();
 		},
 		vacation: (parent, args, { prisma }) => {
 			return prisma.vacation(args.where);
+		},
+		day: (parent, args, { prisma }) => {
+			return prisma.day(args.where);
 		},
 		event: (parent, args, { prisma }) => {
 			return prisma.event(args.where);
@@ -117,21 +121,24 @@ const resolvers = {
 		},
 	},
 	Vacation: {
-		events(parent, args, { prisma }) {
+		dates(parent, args, { prisma }) {
 			return prisma
 				.vacation({
 					id: parent.id,
 				})
-				.events();
+				.dates();
+		},
+	},
+	Day: {
+		events(parent, args, { prisma }) {
+			return prisma.day({ id: parent.id }).events();
 		},
 	},
 	Event: {
-		trip(parent, args, { prisma }) {
-			return prisma
-				.event({
-					id: parent.id,
-				})
-				.trip();
+		date(parent, args, { prisma }) {
+			return prisma.event({
+				id: parent.id,
+			});
 		},
 	},
 };
