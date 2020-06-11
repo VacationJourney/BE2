@@ -1,5 +1,12 @@
 # import Query.event from "generated/prisma.graphql"
+# import Query.day from "generated/prisma.graphql"
+# import Query.event from "generated/prisma.graphql"
 # import Query.vacation from "generated/prisma.graphql"
+
+# import Mutation.createDate from "generated/prisma.graphql"
+# import Mutation.updateDate from "generated/prisma.graphql"
+# import Mutation.updateManyDates from "generated/prisma.graphql"
+# import Mutation.deleteDate from "generated/prisma.graphql"
 
 # import Mutation.createEvent from "generated/prisma.graphql"
 # import Mutation.updateEvent from "generated/prisma.graphql"
@@ -11,7 +18,8 @@
 # import Mutation.updateVacation from "generated/prisma.graphql"
 # import Mutation.deleteVacation from "generated/prisma.graphql"
 
-# import User, Vacation, Events, from "generated/prisma.graphql"
+# import User, Vacation, Day, Events, from "generated/prisma.graphql"
+
 
 type LoginResponse {
 	token: String
