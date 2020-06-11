@@ -1,7 +1,6 @@
 type User {
   id: ID! @id
   username: String! @unique
-  name: String
   email: String
   password: String!
   vacations: [Vacation!]!
@@ -10,18 +9,22 @@ type User {
 type Vacation {
   id: ID! @id
   title: String!
-  startDate: String!
-  endDate: String!
-  events: [Event!]! 
+  dates: [Day!]!
   traveler: User @relation(link: INLINE)
+}
+
+type Day {
+  id: ID! @id
+  date: DateTime!
+  events: [Event!]!
+  trip: Vacation @relation(link: INLINE)
 }
 
 type Event {
   id: ID! @id
-  date: String!
+  title: String!
+  date: Day @relation(link: INLINE)
   startTime: String
   endTime: String
-  title: String!
   description: String
-  trip: Vacation @relation(link: INLINE)
 }
