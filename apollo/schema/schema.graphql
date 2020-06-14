@@ -3,10 +3,10 @@
 # import Query.event from "generated/prisma.graphql"
 # import Query.vacation from "generated/prisma.graphql"
 
-# import Mutation.createDate from "generated/prisma.graphql"
-# import Mutation.updateDate from "generated/prisma.graphql"
-# import Mutation.updateManyDates from "generated/prisma.graphql"
-# import Mutation.deleteDate from "generated/prisma.graphql"
+# import Mutation.createDay from "generated/prisma.graphql"
+# import Mutation.updateDay from "generated/prisma.graphql"
+# import Mutation.updateManyDays from "generated/prisma.graphql"
+# import Mutation.deleteDay from "generated/prisma.graphql"
 
 # import Mutation.createEvent from "generated/prisma.graphql"
 # import Mutation.updateEvent from "generated/prisma.graphql"
