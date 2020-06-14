@@ -92,6 +92,9 @@ const resolvers = {
 			console.log('DeleteVacation:', args)
 			return prisma.deleteVacation(args.where);
 		},
+		deleteDay(parent, args, { prisma }, info) {
+			return prisma.deleteDay(args.where);
+		},
 
 		// for the events
 		createEvent: async (parent, args, { prisma }, info) => {
