@@ -15,7 +15,7 @@ type Vacation {
 
 type Day {
   id: ID! @id
-  date: DateTime!
+  date: String!
   events: [Event!]!
   trip: Vacation @relation(link: INLINE)
 }
