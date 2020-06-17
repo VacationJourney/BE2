@@ -78,7 +78,6 @@ const resolvers = {
 
 		// for the vacations
 		createVacation: async (parent, args, { prisma }, info) => {
-			console.log('New Vacation:', args.data)
 			const vacation = await prisma.createVacation(args.data);
 			return vacation;
 		},
@@ -89,7 +88,6 @@ const resolvers = {
 		},
 
 		deleteVacation(parent, args, { prisma }, info) {
-			console.log('DeleteVacation:', args)
 			return prisma.deleteVacation(args.where);
 		},
 		deleteDay(parent, args, { prisma }, info) {
