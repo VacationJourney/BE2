@@ -26,5 +26,8 @@ type Event {
   date: Day @relation(link: INLINE)
   startTime: String
   endTime: String
+  location: String
+  contact: String
+  cost: Int
   description: String
 }
