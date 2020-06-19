@@ -5,23 +5,23 @@ const signToken = require('./signToken');
 // const dayjs =require('dayjs')
 
 const resolvers = {
-		// DateTime: new GraphQLScalarType({
-		//   name: 'DateTime',
-		//   description: 'DateTime custom scalar type',
-		//   parseValue(value) {
-		// 	  console.log('parseValue:', value)
-		// 	return new Date(value); // value from the client
-		//   },
-		//   serialize(value) {
-		// 	return dayjs(value).format("MM-DD-YYYY"); // value sent to the client
-		//   },
-		//   parseLiteral(ast) {
-		// 	if (ast.kind === Kind.STRING) {
-		// 	  return dayjs(ast.value); // ast value is always in string format
-		// 	}
-		// 	return null;
-		//   }, 
-		// }),
+	// DateTime: new GraphQLScalarType({
+	//   name: 'DateTime',
+	//   description: 'DateTime custom scalar type',
+	//   parseValue(value) {
+	// 	  console.log('parseValue:', value)
+	// 	return new Date(value); // value from the client
+	//   },
+	//   serialize(value) {
+	// 	return dayjs(value).format("MM-DD-YYYY"); // value sent to the client
+	//   },
+	//   parseLiteral(ast) {
+	// 	if (ast.kind === Kind.STRING) {
+	// 	  return dayjs(ast.value); // ast value is always in string format
+	// 	}
+	// 	return null;
+	//   },
+	// }),
 	Mutation: {
 		// For the Users
 		signUp: async (parent, { username, email, password }, ctx, info) => {
@@ -66,13 +66,17 @@ const resolvers = {
 		) => {
 			const hashedPassword = await bcrypt.hash(password, 10);
 			const changes = await prisma.updateUser({
-				data: { username, name, email, password: hashedPassword },
+				data: {
+					username,
+					email,
+					password: hashedPassword,
+				},
 				where: { id },
 			});
 			return changes;
 		},
 
-		deleteUser: async (parent, args, { user, prisma }, info) => {
+		deleteUser: async (parent, args, { prisma }, info) => {
 			return prisma.deleteUser(args.where);
 		},
 
@@ -118,7 +122,7 @@ const resolvers = {
 			return prisma.user({ id: user.id });
 		},
 		vacations: async (parent, args, { user, prisma }) => {
-			if(!user){
+			if (!user) {
 				throw new Error('Not Authenticated');
 			}
 			return await prisma.user({ id: user.id }).vacations();

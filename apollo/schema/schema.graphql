@@ -12,6 +12,7 @@
 # import Mutation.updateEvent from "generated/prisma.graphql"
 # import Mutation.deleteEvent from "generated/prisma.graphql"
 
+
 # import Mutation.deleteUser from "generated/prisma.graphql"
 
 # import Mutation.createVacation from "generated/prisma.graphql"
@@ -30,7 +31,7 @@ type LoginResponse {
 type Mutation {
 	signUp(username: String!, name: String, email: String, password: String!): User!
 	login(username: String!, password: String!): LoginResponse!
-	userUpdate(id: ID!, username: String, name: String, email: String, password: String ): User!
+	userUpdate(id: ID!, username: String, email: String, password: String ): User!
 }
 type Query {
   currentUser: User!
