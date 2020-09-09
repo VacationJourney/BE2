@@ -10,7 +10,8 @@
 
 ### Pitch
 
-As a Traveler, I find that decisions are based upon finances. I need an application to plan, organize, budget, and guide me on my trips. 
+As a Traveler, I find that travel decisions are based upon finances.<br />
+ I need an application to plan, organize, budget, and guide me on my trips. 
 
 **Goal**  
 To Create a dynamic organization of vacation data that delivers efficiently to the client. 
