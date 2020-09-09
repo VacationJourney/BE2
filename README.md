@@ -10,7 +10,7 @@
 
 ### Pitch
 
-As a Traveler, I find that decisions are based upon finances. I need an application to plan, organize, and budget my trip. 
+As a Traveler, I find that decisions are based upon finances. I need an application to plan, organize, budget, and guide me on my trips. 
 
 **Goal**  
 To Create a dynamic organization of vacation data that delivers efficiently to the client. 
@@ -34,11 +34,11 @@ Must Choose:
 ## Available Scripts
 
 In the project directory, you can run:
-### 'prisma admin'
+### `prisma admin`
 
 Opens up the Prisma Database GUI
 
-### 'npm run dev'
+### `npm run dev`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
@@ -52,5 +52,5 @@ will open the GraphQL playground
 - write mutations and queries with passed variables and headers<br/>
 (**translatable code for client to run**)
 
- ### 'npm run start'
+ ### `npm run start`
 Runs the app in the production mode.
