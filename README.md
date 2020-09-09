@@ -47,7 +47,8 @@ Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-**(cmd + 'url') in terminal ** <br />
+`cmd + [http://localhost:4000](http://localhost:4000) in terminal `
+<br />
 will open the:<br />
 **GraphQL playground**
 - access schema and docs
