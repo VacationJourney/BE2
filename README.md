@@ -27,7 +27,7 @@ To Create a dynamic organization of vacation data that delivers efficiently to t
 
 
 ### Current Problems
-- Deployment issues
+- *Deployment issues*
 Must Choose:
 1. Changing to Prisma Cloud / Heroku / PostgreSQL (dynamic & easy to scale)
 2. Deploying Docker - Prisma and MongoDB Images (App currently built and heading into that direction, but now as dynamic as choice 1.)
