@@ -1,27 +1,8 @@
 const bcrypt = require('bcryptjs');
 const signToken = require('./signToken');
-// const { GraphQLScalarType } = require('graphql');
-// const { Kind } = require('graphql/language');
-// const dayjs =require('dayjs')
 
 const resolvers = {
-	// DateTime: new GraphQLScalarType({
-	//   name: 'DateTime',
-	//   description: 'DateTime custom scalar type',
-	//   parseValue(value) {
-	// 	  console.log('parseValue:', value)
-	// 	return new Date(value); // value from the client
-	//   },
-	//   serialize(value) {
-	// 	return dayjs(value).format("MM-DD-YYYY"); // value sent to the client
-	//   },
-	//   parseLiteral(ast) {
-	// 	if (ast.kind === Kind.STRING) {
-	// 	  return dayjs(ast.value); // ast value is always in string format
-	// 	}
-	// 	return null;
-	//   },
-	// }),
+	
 	Mutation: {
 		// For the Users
 		signUp: async (parent, { username, email, password }, ctx, info) => {
