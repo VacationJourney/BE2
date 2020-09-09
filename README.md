@@ -32,6 +32,12 @@ Must Choose:
 1. Changing to Prisma Cloud / Heroku / PostgreSQL (dynamic & easy to scale)
 2. Deploying Docker - Prisma and MongoDB Images <br />(App currently built and heading into that direction, but now as dynamic as choice 1.)
 
+---
+### Status:
+*development*
+
+---
+
 ## Available Scripts
 
 In the project directory, you can run:
