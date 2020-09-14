@@ -4,4 +4,5 @@ build:
 run: npm run start
 release:
     image: web
-    command: docker-compose up -d
+    command: 
+        - docker-compose up -d
