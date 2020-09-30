@@ -26,15 +26,22 @@ type LoginResponse {
 	token: String
 	user: User
 }
+type UserFoundError {
+  message: String!
+}
+
+union UserRegResult = User | UserFoundError
 
 
 type Mutation {
-	signUp(username: String!, name: String, email: String, password: String!): User!
+	signUp(username: String!, email: String, password: String!): UserRegResult!
 	login(username: String!, password: String!): LoginResponse!
 	userUpdate(id: ID!, username: String, email: String, password: String ): User!
+	
 }
 type Query {
   currentUser: User!
   vacations: [Vacation!]!
+  authenticationError: String
 }
 

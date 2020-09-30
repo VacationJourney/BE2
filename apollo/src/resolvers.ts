@@ -1,25 +1,34 @@
 const bcrypt = require('bcryptjs');
 const signToken = require('./signToken');
+interface User {
+	id: string;
+	username: string;
+	email: string;
+	password: string
+}
 
 const resolvers = {
-	
 	Mutation: {
 		// For the Users
 		signUp: async (parent, { username, email, password }, ctx, info) => {
-			if (!username && !password) {
-				return;
-			} else {
-				const hashedPassword = await bcrypt.hash(password, 10);
-				const user = await ctx.prisma.createUser({
+			const found = await ctx.prisma.user({ username });
+
+			if (!found) {
+				const hashedPassword: string = await bcrypt.hash(password, 10);
+				const user: User = await ctx.prisma.createUser({
 					username,
 					email,
 					password: hashedPassword,
 				});
 				return user;
+			} else {
+				return {
+					message: `${username} already exists in DB!`,
+				};
 			}
 		},
 		login: async (parent, { username, password }, ctx, info) => {
-			const user = await ctx.prisma.user({ username });
+			const user: User = await ctx.prisma.user({ username });
 
 			if (!user) {
 				throw new Error('Invalid Login');
@@ -46,7 +55,7 @@ const resolvers = {
 			info
 		) => {
 			const hashedPassword = await bcrypt.hash(password, 10);
-			const changes = await prisma.updateUser({
+			const changes: User = await prisma.updateUser({
 				data: {
 					username,
 					email,
@@ -148,6 +157,18 @@ const resolvers = {
 			});
 		},
 	},
+	UserRegResult: {
+		__resolveType(obj, ctx, info) {
+			if (obj.username) {
+				return 'User';
+			}
+			if (obj.message) {
+				return 'UserFoundError';
+			}
+			return null;
+		},
+	},
+	
 };
 
 module.exports = resolvers;
