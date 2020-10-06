@@ -3,31 +3,5 @@ type User {
   username: String! @unique
   email: String
   password: String!
-  vacations: [Vacation!]!
 }
 
-type Vacation {
-  id: ID! @id
-  title: String!
-  dates: [Day!]!
-  traveler: User @relation(link: INLINE)
-}
-
-type Day {
-  id: ID! @id
-  date: String!
-  events: [Event!]!
-  trip: Vacation @relation(link: INLINE)
-}
-
-type Event {
-  id: ID! @id
-  title: String!
-  date: Day @relation(link: INLINE)
-  startTime: String
-  endTime: String
-  location: String
-  contact: String
-  cost: Int
-  description: String
-}
