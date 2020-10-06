@@ -20,4 +20,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-.dev.env
+.dev.env/
+.env.dev
+./config/dev.env
+.config
+/ config
