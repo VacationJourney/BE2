@@ -27,7 +27,6 @@ union UserRegResult = User | UserFoundError
   type Query {
     users: [User!]
     user: User!
-    me: User!
   }
 
   input UserUpdateInput {
