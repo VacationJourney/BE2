@@ -7,7 +7,7 @@ beforeAll(async () => {
   await prisma.deleteManyUsers()
 })
 
-describe('Tests the User Crud', () => {
+describe.skip('Tests the User Crud', () => {
   test('should successfully create a user with valid credentials', async () => {
     const signUp = gql`
             mutation {
