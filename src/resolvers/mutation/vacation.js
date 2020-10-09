@@ -1,5 +1,15 @@
-export const createVacation = async (__, args, { prisma }, info) => {
-  const vacation = await prisma.createVacation(args.data);
+import { decodeToken} from '../../utils/token'
+
+export const createVacation = async (__, args, { prisma, req }, info) => {
+  const { data: { title, dates } } = args;
+  const {id } = decodeToken(req)
+  const vacation = await prisma.createVacation({
+    title,
+    dates,
+    traveler: {
+      connect: {id}
+    }
+  }, info);
   return vacation;
 }
 
