@@ -33,24 +33,22 @@ beforeAll(async () => {
   const signUpRes = await client.mutate({
     mutation: SIGN_UP
   })
-  authenticatedClient = getClient(signUpRes.data.signUp.token)
-  userID = signUpRes.data.signUp.user.id;
   
+  authenticatedClient = getClient(signUpRes.data.signUp.token)
+  console.log('authClient', authenticatedClient)
 })
 
 describe('Tests the Vacation Resolver Logic', () => {
-  test('should create a vacation', async () => {
+  test('should create a vacation for an authenticated user', async () => {
     const CREATE_VACATION = gql`
       mutation createVacation(
         $title: String!, 
-        $traveler: ID!, 
         $dates: [DayCreateWithoutTripInput!]
         ) {
         createVacation(data: {
             title: $title,
-            dates: { create: $dates },
-            traveler: { connect: { id: $traveler }
-          }}
+            dates: { create: $dates }
+          }
         ) {
           id
           title
@@ -66,8 +64,8 @@ describe('Tests the Vacation Resolver Logic', () => {
       }
     `;
 
-    const vacationRes = await client.mutate({
-      mutation: CREATE_VACATION, variables: {title: "Hawaii", traveler: userID , dates: [ {date: "2021-10-15"},{ date: "2021-10-16"}]}
+    const vacationRes = await authenticatedClient.mutate({
+      mutation: CREATE_VACATION, variables: {title: "Hawaii", dates: [ {date: "2021-10-15"},{ date: "2021-10-16"}]}
     })
     expect(vacationRes.data.createVacation.title).toMatch("Hawaii")
   });
