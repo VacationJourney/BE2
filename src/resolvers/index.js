@@ -1,11 +1,11 @@
 import { Mutation } from './mutation'
 import { Query } from './query/Query';
-import { UserRegResult} from './QueryHelpers'
+import * as Helpers from './GQLHelpers'
 
 const resolvers = {
   Mutation,
   Query,
-  UserRegResult
+  ...Helpers
 }
 
 

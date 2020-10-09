@@ -1,6 +1,6 @@
 import 'cross-fetch/polyfill';
 import { gql } from 'apollo-boost';
-import { prisma } from '../src/generated/prisma-client';
+import { prisma } from '../src/generated';
 import { client } from './utils';
 
 beforeAll(async () => {
@@ -8,7 +8,7 @@ beforeAll(async () => {
 })
 
 describe('Tests the User Crud', () => {
-  it('should successfully create a user with valid credentials', async () => {
+  test('should successfully create a user with valid credentials', async () => {
     const signUp = gql`
             mutation {
               signUp(
@@ -16,10 +16,13 @@ describe('Tests the User Crud', () => {
                 email: "jeremy@mac.com",
                 password: "Kansas"
               ){
-               ...on User {
-                 id
-                 username
-                 email
+               ...on SignUpResponse {
+                 token 
+                 user {
+                   id 
+                   username 
+                   email
+                 }
                }
                ... on UserFoundError {
                  message
@@ -36,30 +39,40 @@ describe('Tests the User Crud', () => {
     const exists = await prisma.$exists.user({id : res.data.signUp.id});
     expect(exists).toBe(true);
   });
-  it('should not create two identical users', async () => {
+  test('should not create two identical users', async () => {
     const signUp = gql`
-            mutation {
-              signUp(
-                username: "JMac",
-                email: "jeremy@mac.com",
-                password: "Kansas"
-              ){
-                ...on User {
-                  username
-               }
-               ... on UserFoundError {
-                 message
-               }
-              }
-            }
-            `;
+    mutation {
+      signUp(
+        username: "JMac",
+        email: "jeremy@mac.com",
+        password: "Kansas"
+      ){
+       ...on SignUpResponse {
+         token 
+         user {
+           id 
+           username 
+           email
+         }
+       }
+       ... on UserFoundError {
+         message
+       }
+      }
+    }
+    `;
 
-  await expect(client.mutate({
+  const signUpRes = await client.mutate({
     mutation: signUp
-  })).rejects.toThrowError("JMac already exists in DB!");
+  })
+
+  expect(signUpRes.data.signUp.message).toMatch("JMac already exists in DB!")
+  // await expect(client.mutate({
+  //   mutation: signUp
+  // })).rejects.toThrowError("JMac already exists in DB!");
   })
 // Login Mutation
-  it('should login a user with the correct credentials and return a token', async () => {
+  test('should login a user with the correct credentials and return a token', async () => {
     const login = gql`
     mutation {
       login(
@@ -82,7 +95,7 @@ describe('Tests the User Crud', () => {
     expect(loginRes.data.login.token).toBeTruthy()
   })
 
-  it('should not be able to login with the wrong credentials', async () => {
+  test('should not be able to login with the wrong credentials', async () => {
     const login = gql`
     mutation {
       login(
@@ -102,7 +115,7 @@ describe('Tests the User Crud', () => {
     })).rejects.toThrowError("Invalid Login");
     })
 // Update user
-    it('should update a user with a change', async () => {
+    test('should update a user with a change', async () => {
       // snag the user id from the prisma admin gui
       const login = gql`
         mutation login($username: String!, $password: String!) {
@@ -135,7 +148,7 @@ describe('Tests the User Crud', () => {
       expect(updateRes.data.updateUser.username).toMatch("Jeremy")
     })
 // Delete User
-    it('should delete a user from the DB', async () => {
+    test('should delete a user from the DB', async () => {
       const login = gql`
         mutation login($username: String!, $password: String!) {
           login(username: $username, password: $password) {
@@ -150,7 +163,7 @@ describe('Tests the User Crud', () => {
 
       const deleteUser = gql`
         mutation deleteUser($id: ID!){
-        deleteUser(where: {id: $id}){
+        deleteUser(id: $id){
           id
           username
         }
