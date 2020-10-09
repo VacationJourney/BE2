@@ -1,7 +1,7 @@
 import  { ApolloServer } from 'apollo-server';
 import resolvers from './resolvers';
 import typeDefs from './typeDefs';
-import { prisma } from './generated/prisma-client'
+import { prisma } from './generated'
 
 const server = new ApolloServer({ 
   typeDefs, 
