@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs'
-import signToken from '../../utils/signToken'
+import {signToken} from '../../utils/token'
 
 export const signUp = async (__,{ username, email, password } ,{ prisma } , info) => {
   const found = await prisma.user({ username });
+
   if (!found) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.createUser({
@@ -10,8 +11,13 @@ export const signUp = async (__,{ username, email, password } ,{ prisma } , info
       email,
       password: hashedPassword,
     });
-    return user;
-  } else if (found){throw new Error(`${username} already exists in DB!`)
+    const token = signToken(user);
+    return {user, token};
+  } 
+  else if (found){
+    return {
+      message: `${username} already exists in DB!`
+    }
   }
 }
 
@@ -55,5 +61,6 @@ export const updateUser = async(
 }
 
 export const deleteUser = async (parent, args, { prisma }, info) => {
-  return prisma.deleteUser(args.where);
+  return prisma.deleteUser(args);
 }
+
