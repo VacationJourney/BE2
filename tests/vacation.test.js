@@ -4,7 +4,7 @@ import { prisma } from '../src/generated';
 import { getClient } from './utils';
 const client = getClient();
 let authenticatedClient;
-let userID;
+let vacationID;
 
 beforeAll(async () => {
   await prisma.deleteManyUsers()
@@ -35,10 +35,38 @@ beforeAll(async () => {
   })
   
   authenticatedClient = getClient(signUpRes.data.signUp.token)
-  console.log('authClient', authenticatedClient)
 })
 
 describe('Tests the Vacation Resolver Logic', () => {
+  test('should not create a vacation for an un-authenticated user', async () => {
+    const CREATE_VACATION = gql`
+    mutation createVacation(
+      $title: String!, 
+      $dates: [DayCreateWithoutTripInput!]
+      ) {
+      createVacation(data: {
+          title: $title,
+          dates: { create: $dates }
+        }
+      ) {
+        id
+        title
+        dates {
+          id
+          date
+          events {
+            id
+            title
+          }
+        }
+      }
+    }
+  `;
+  await expect(client.mutate({
+    mutation: CREATE_VACATION, variables: {title: "Fiji", dates: [ {date: "2020-10-15"},{ date: "2020-10-16"}]}
+  })).rejects.toThrowError("Authentication required");
+  })
+
   test('should create a vacation for an authenticated user', async () => {
     const CREATE_VACATION = gql`
       mutation createVacation(
@@ -67,8 +95,51 @@ describe('Tests the Vacation Resolver Logic', () => {
     const vacationRes = await authenticatedClient.mutate({
       mutation: CREATE_VACATION, variables: {title: "Hawaii", dates: [ {date: "2021-10-15"},{ date: "2021-10-16"}]}
     })
+    vacationID = vacationRes.data.createVacation.id
     expect(vacationRes.data.createVacation.title).toMatch("Hawaii")
   });
+  test('should up date a vacation by an authenticated user ', async () => {
+    const UPDATE_VACATION =gql`
+      mutation updateVacation(
+        $id: ID
+        $title: String
+        $dates: [DayCreateWithoutTripInput!]
+      ) {
+        updateVacation(
+          data: { title: $title, dates: { create: $dates } }
+          where: {id: $id}
+        ) {
+          id
+          title
+          dates {
+            id
+            date
+          }
+        }
+      }
+    `;
+    const updateRes =  await authenticatedClient.mutate({
+      mutation: UPDATE_VACATION, variables: {id: vacationID, title: "Peru", dates: [{date: '2021-07-26'},{date: '2021-07-27'},{date: '2021-07-28'},{date: '2021-07-29'}]
+      }
+    })
+    expect(updateRes.data.updateVacation.title).toMatch("Peru")
+    
+  })
+  test('should delete a vacation', async () => {
+    const DELETE_VACATION = gql`
+      mutation deleteVacation($id: ID!) {
+        deleteVacation(id: $id) {
+          id
+          title
+        }
+      }
+    `;
+  const deleteRes = await client.mutate({
+    mutation: DELETE_VACATION, variables: {id: vacationID}
+  })
+  const exists = await prisma.$exists.vacation({id : deleteRes.data.deleteVacation.id});
+    expect(exists).toBe(false);
+  })
   
   
 });

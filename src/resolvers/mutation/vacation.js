@@ -13,6 +13,21 @@ export const createVacation = async (__, args, { prisma, req }, info) => {
   return vacation;
 }
 
+export const updateVacation = async (__, args, {prisma, req}, info) => {
+  const {data: {title, dates}, where: {id}} = args;
+  const {username } = decodeToken(req)
+  const updatedVacation = await prisma.updateVacation({
+      data: {title,
+      dates,
+      traveler: {
+        connect: {username}
+      }},
+      where: {id: id}
+      
+  })
+  return updatedVacation;
+}
+
 export const deleteVacation = (__, args, { prisma }, info) => {
   return prisma.deleteVacation(args);
 }
