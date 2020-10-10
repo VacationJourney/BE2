@@ -5,6 +5,10 @@ import { getClient } from './utils';
 const client = getClient();
 let authenticatedClient;
 let vacationID;
+let dateID;
+
+// First - Set up clean slate environment
+// Second - Create Authenticated environment
 
 beforeAll(async () => {
   await prisma.deleteManyUsers()
@@ -38,7 +42,65 @@ beforeAll(async () => {
 })
 
 
-describe('Tests the Vacation Resolver Logic', () => {
+describe('Tests Authenticated Current User & the Vacation Resolver Logic', () => {
+  // CURRENT_USER Query
+  test('should not query for current user without authentication', async () => {
+    const CURRENT_USER = gql`
+        query currentUser {
+        currentUser {
+          id
+          username
+          email
+          vacations{
+            id
+            title
+            dates{
+              id
+              date
+              events{
+                id
+                title
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    await expect(client.query({query: CURRENT_USER})).rejects.toThrowError("Authentication required")
+
+  })
+
+ // CURRENT_USER Query
+  test('should not query for current user without authentication', async () => {
+    const CURRENT_USER = gql`
+        query currentUser {
+        currentUser {
+          id
+          username
+          email
+          vacations{
+            id
+            title
+            dates{
+              id
+              date
+              events{
+                id
+                title
+              }
+            }
+          }
+        }
+      }
+    `;
+    const currentUserRes = await authenticatedClient.query({
+      query: CURRENT_USER
+    })
+    expect(currentUserRes.data.currentUser.username).toMatch("JMac")
+  })
+
+// CREATE_VACATION mutation
   test('should not create a vacation for an un-authenticated user', async () => {
     const CREATE_VACATION = gql`
     mutation createVacation(
@@ -68,7 +130,7 @@ describe('Tests the Vacation Resolver Logic', () => {
   })).rejects.toThrowError("Authentication required");
   })
 
-
+// CREATE_VACATION mutation
   test('should create a vacation for an authenticated user', async () => {
     const CREATE_VACATION = gql`
       mutation createVacation(
@@ -101,7 +163,32 @@ describe('Tests the Vacation Resolver Logic', () => {
     expect(vacationRes.data.createVacation.title).toMatch("Hawaii")
   });
 
+// single VACATION query
+  test('should query for a single vacation', async () => {
+    const VACATION = gql`
+        query vacation($id: ID!){
+          vacation(where: {id: $id}){
+            id
+            title
+            dates{
+              id
+              date
+              events{
+                id
+                title
+              }
+            }
+          }
+        }
+    `;
 
+    const vacationQueryRes = await client.query({
+      query: VACATION, variables: {id: vacationID}
+    })
+    expect(vacationQueryRes.data.vacation.title).toMatch("Hawaii")
+  })
+
+// UPDATE_VACATION mutation
   test('should not update for an unauthenticated user', async() => {
     const UPDATE_VACATION =gql`
       mutation updateVacation(
@@ -127,7 +214,7 @@ describe('Tests the Vacation Resolver Logic', () => {
     })).rejects.toThrowError("Authentication required");
   })
 
-
+// UPDATE_VACATION mutation
   test('should update a vacation by an authenticated user ', async () => {
     const UPDATE_VACATION =gql`
       mutation updateVacation(
@@ -153,10 +240,78 @@ describe('Tests the Vacation Resolver Logic', () => {
       }
     })
     expect(updateRes.data.updateVacation.title).toMatch("Peru")
+    dateID = updateRes.data.updateVacation.dates[0].id
   })
 
+// VACATIONS query
+  test('should not return the vacations if not authenticated', async () => {
+    const VACATIONS = gql`
+        query vacations {
+          vacations{
+            id
+            title
+            dates{
+              id
+              date
+              events{
+                id
+                title
+              }
+            }
+          }
+        }
+    `;
+    await expect(client.query({
+      query: VACATIONS
+    })).rejects.toThrowError("Authentication required");
 
-  test.skip('should delete a vacation', async () => {
+  })
+
+// VACATIONS query
+  test('should return the vacations if authenticated', async () => {
+    const VACATIONS = gql`
+        query vacations {
+          vacations{
+            id
+            title
+            dates{
+              id
+              date
+              events{
+                id
+                title
+              }
+            }
+          }
+        }
+    `;
+    const vacationQueryRes = await authenticatedClient.query({
+      query: VACATIONS
+    })
+    
+    expect(vacationQueryRes.data.vacations[0].title).toMatch("Peru")
+  })
+
+// DELETE_DAY mutation
+  test('should delete a day', async () => {
+    const DELETE_DAY = gql`
+      mutation deleteDay($id: ID!){
+        deleteDay(id: $id){
+          id
+          date
+        }
+      }
+    ` 
+    const deleteDayRes = await client.mutate({
+      mutation: DELETE_DAY, variables: { id: dateID }
+    })
+    const exists = await prisma.$exists.event({id : deleteDayRes.data.deleteDay.id});
+    expect(exists).toBe(false);
+    
+  })
+
+// DELETE_VACATION mutation
+  test('should delete a vacation', async () => {
     const DELETE_VACATION = gql`
       mutation deleteVacation($id: ID!) {
         deleteVacation(id: $id) {
