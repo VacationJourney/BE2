@@ -14,6 +14,7 @@ export const createVacation = async (__, args, { prisma, req }, info) => {
 }
 
 export const updateVacation = async (__, args, {prisma, req}, info) => {
+  await prisma.deleteManyDays()
   const {data: {title, dates}, where: {id}} = args;
   const {username } = decodeToken(req)
   const updatedVacation = await prisma.updateVacation({
@@ -41,6 +42,11 @@ export const deleteDay = (__, args, { prisma }, info) => {
 export const createEvent = async (__, args, { prisma }, info) => {
   const event = await prisma.createEvent(args.data);
   return event;
+}
+
+export const updateEvent = async (__, args, {prisma}, info) => {
+  const updatedEvent = await prisma.updateEvent(args);
+  return updatedEvent
 }
 
 export const deleteEvent = (__, args, { prisma }, info) => {
