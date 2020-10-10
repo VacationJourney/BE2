@@ -67,7 +67,8 @@ beforeAll(async () => {
     dateID = vacationRes.data.createVacation.dates[0].id
 })
 
-describe.skip('Tests the Events resolver CRUD logic', () => {
+describe('Tests the Events resolver CRUD logic', () => {
+// CREATE_EVENT mutation
   test('Should create an event', async () => {
     const CREATE_EVENT = gql`
       mutation CreateEvent(
@@ -117,7 +118,7 @@ describe.skip('Tests the Events resolver CRUD logic', () => {
     expect(eventRes.data.createEvent.title).toMatch("Scuba")
   })
 
-
+// UPDATE_EVENT mutation
   test('should update an event', async () => {
     const UPDATE_EVENT = gql`
         mutation updateEvent(
@@ -165,6 +166,8 @@ describe.skip('Tests the Events resolver CRUD logic', () => {
     })
     expect(updateRes.data.updateEvent.title).toMatch("Beer Tour")
   })
+
+// DELETE_EVENT mutation
   test('should delete an event', async () => {
     const DELETE_EVENT = gql`
       mutation deleteEvent($id: ID!) {
