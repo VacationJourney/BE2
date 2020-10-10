@@ -1,7 +1,7 @@
-import  { ApolloServer } from 'apollo-server';
-import resolvers from './resolvers';
-import typeDefs from './typeDefs';
-import { prisma } from './generated'
+const {ApolloServer} = require('apollo-server');
+const resolvers = require('./resolvers/index');
+const typeDefs = require('./typeDefs/index');
+const {prisma} = require('./generated');
 
 const server = new ApolloServer({ 
   typeDefs, 
@@ -12,5 +12,4 @@ const server = new ApolloServer({
   })
  });
 
- 
-export default server;
+module.exports = server
