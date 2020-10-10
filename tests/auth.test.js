@@ -1,3 +1,4 @@
+// GQL login gaining authentication
 import 'cross-fetch/polyfill';
 import { gql } from 'apollo-boost';
 import { prisma } from '../src/generated';
@@ -8,8 +9,9 @@ beforeAll(async () => {
 })
 
 describe('Tests the User Crud', () => {
+// SIGN_UP mutation
   test('should successfully create a user with valid credentials', async () => {
-    const signUp = gql`
+    const SIGN_UP = gql`
             mutation {
               signUp(
                 username: "JMac",
@@ -32,15 +34,17 @@ describe('Tests the User Crud', () => {
             `;
 
      const res = await client.mutate({
-      mutation: signUp
+      mutation: SIGN_UP
     })
     
     
     const exists = await prisma.$exists.user({id : res.data.signUp.id});
     expect(exists).toBe(true);
   });
+
+// SIGN_UP mutation
   test('should not create two identical users', async () => {
-    const signUp = gql`
+    const SIGN_UP = gql`
     mutation {
       signUp(
         username: "JMac",
@@ -63,17 +67,15 @@ describe('Tests the User Crud', () => {
     `;
 
   const signUpRes = await client.mutate({
-    mutation: signUp
+    mutation: SIGN_UP
   })
 
   expect(signUpRes.data.signUp.message).toMatch("JMac already exists in DB!")
-  // await expect(client.mutate({
-  //   mutation: signUp
-  // })).rejects.toThrowError("JMac already exists in DB!");
   })
-// Login Mutation
+
+// LOGIN Mutation
   test('should login a user with the correct credentials and return a token', async () => {
-    const login = gql`
+    const LOGIN = gql`
     mutation {
       login(
         username: "JMac",
@@ -88,15 +90,16 @@ describe('Tests the User Crud', () => {
     }
     `;
     const loginRes = await client.mutate({
-      mutation: login
+      mutation: LOGIN
     })
     
     expect(loginRes.data.login.user.username).toMatch("JMac")
     expect(loginRes.data.login.token).toBeTruthy()
   })
 
+// LOGIN Mutation
   test('should not be able to login with the wrong credentials', async () => {
-    const login = gql`
+    const LOGIN = gql`
     mutation {
       login(
         username: "Pickles",
@@ -111,13 +114,14 @@ describe('Tests the User Crud', () => {
     }
     `;
     await expect(client.mutate({
-      mutation: login
+      mutation: LOGIN
     })).rejects.toThrowError("Invalid Login");
     })
-// Update user
+
+// UPDATE_USER
     test('should update a user with a change', async () => {
       // snag the user id from the prisma admin gui
-      const login = gql`
+      const LOGIN = gql`
         mutation login($username: String!, $password: String!) {
           login(username: $username, password: $password) {
             token
@@ -129,7 +133,7 @@ describe('Tests the User Crud', () => {
         }
       `;
     
-      const updateUser = gql`
+      const UPDATE_USER = gql`
         mutation updateUser($id: ID!, $username: String, $email: String, $password: String){
           updateUser(id: $id, username: $username, email: $email, password: $password){
             username
@@ -139,17 +143,18 @@ describe('Tests the User Crud', () => {
       `;
 
       const loginRes = await client.mutate({
-        mutation: login, variables: {username: "JMac", password: "Kansas"}
+        mutation: LOGIN, variables: {username: "JMac", password: "Kansas"}
       })
-    
       const updateRes = await client.mutate({
-        mutation: updateUser, variables: { id: loginRes.data.login.user.id, username: "Jeremy", email: "pizza@pie.com", password: "Kansas"}
+        mutation: UPDATE_USER, variables: { id: loginRes.data.login.user.id, username: "Jeremy", email: "pizza@pie.com", password: "Kansas"}
       })
+
       expect(updateRes.data.updateUser.username).toMatch("Jeremy")
     })
-// Delete User
+
+// DELETE_USER
     test('should delete a user from the DB', async () => {
-      const login = gql`
+      const LOGIN = gql`
         mutation login($username: String!, $password: String!) {
           login(username: $username, password: $password) {
             token
@@ -161,7 +166,7 @@ describe('Tests the User Crud', () => {
       }
       `;
 
-      const deleteUser = gql`
+      const DELETE_USER = gql`
         mutation deleteUser($id: ID!){
         deleteUser(id: $id){
           id
@@ -170,11 +175,11 @@ describe('Tests the User Crud', () => {
       }
       `
       const loginRes = await client.mutate({
-        mutation: login, variables: {username: "Jeremy", password: "Kansas"}
+        mutation: LOGIN, variables: {username: "Jeremy", password: "Kansas"}
       })
 
       const deleteRes = await client.mutate({
-        mutation: deleteUser, variables: {id: loginRes.data.login.user.id}
+        mutation: DELETE_USER, variables: {id: loginRes.data.login.user.id}
       })
       // confirm correct username is returned from mutation
       expect(deleteRes.data.deleteUser.username).toMatch("Jeremy")

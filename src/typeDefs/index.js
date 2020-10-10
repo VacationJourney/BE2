@@ -670,7 +670,6 @@ type Mutation {
   login(username: String, password: String): LoginResponse!
   updateUser(id: ID!, username: String, email: String, password: String): User
   deleteUser(id: ID!): User
-
 }
 
 enum MutationType {
