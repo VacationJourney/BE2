@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "env-cmd -f ./config/test.env jest --runInBand",
     "dev": "env-cmd -f ./config/dev.env nodemon --exec babel-node index.js"
   },
