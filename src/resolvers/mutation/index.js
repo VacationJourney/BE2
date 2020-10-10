@@ -3,5 +3,5 @@ import * as Vacation from './vacation'
 
 export const Mutation = {
   ...User,
-  ...Vacation,
+  ...Vacation
 }
