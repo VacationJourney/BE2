@@ -1,8 +1,7 @@
-// GQL login gaining authentication
-import 'cross-fetch/polyfill';
-import { gql } from 'apollo-boost';
-import { prisma } from '../src/generated';
-import { client } from './utils';
+require('cross-fetch/polyfill')
+const {gql} = require('apollo-boost');
+const {prisma} = require('../src/generated');
+const {client} = require('./utils');
 
 beforeAll(async () => {
   await prisma.deleteManyUsers()

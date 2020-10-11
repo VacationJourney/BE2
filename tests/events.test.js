@@ -1,7 +1,8 @@
-import 'cross-fetch/polyfill';
-import { gql } from 'apollo-boost';
-import { prisma } from '../src/generated';
-import { getClient } from './utils';
+require('cross-fetch/polyfill')
+const {gql} = require('apollo-boost');
+const {prisma} = require('../src/generated');
+const {getClient} = require('./utils');
+
 const client = getClient();
 let authenticatedClient;
 let dateID;
@@ -116,6 +117,7 @@ describe('Tests the Events resolver CRUD logic', () => {
    
     eventID = eventRes.data.createEvent.id
     expect(eventRes.data.createEvent.title).toMatch("Scuba")
+    console.log("EID", eventID)
   })
 
 // UPDATE_EVENT mutation

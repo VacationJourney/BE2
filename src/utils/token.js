@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-export const signToken = (user) => {
+const signToken = (user) => {
 	const payload = {
 		id: user.id,
 	  username: user.username
@@ -14,8 +14,9 @@ export const signToken = (user) => {
   
 	return jwt.sign(payload, secret, options); 
 	}
+
 	
-	export const decodeToken = (req, requireAuth = true) => {
+const decodeToken = (req, requireAuth = true) => {
 		const header = req.req.headers.authorization;
 	
 		if (header) {
@@ -30,3 +31,5 @@ export const signToken = (user) => {
 		
 		return null
 	}
+	
+	module.exports = {signToken, decodeToken}
