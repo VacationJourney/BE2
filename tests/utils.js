@@ -1,11 +1,11 @@
 import ApolloClient from 'apollo-boost';
 
-export const client = new ApolloClient({
+const client = new ApolloClient({
   uri: 'http://localhost:4000/',
   onError: (e) => { console.log(e) },
 });
 
-export const getClient = (token) => {
+const getClient = (token) => {
   return new ApolloClient({
    uri: 'http://localhost:4000/',
    request: (operation) => {
@@ -20,3 +20,5 @@ export const getClient = (token) => {
    onError: (e) => { console.log(e) },
  });
 }
+
+module.exports = {client, getClient}
