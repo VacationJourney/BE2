@@ -1,7 +1,8 @@
-import 'cross-fetch/polyfill';
-import { gql } from 'apollo-boost';
-import { prisma } from '../src/generated';
-import { getClient } from './utils';
+require('cross-fetch/polyfill')
+const {gql} = require('apollo-boost');
+const {prisma} = require('../src/generated');
+const {getClient} = require('./utils');
+
 const client = getClient();
 let authenticatedClient;
 let vacationID;
@@ -72,7 +73,7 @@ describe('Tests Authenticated Current User & the Vacation Resolver Logic', () =>
   })
 
  // CURRENT_USER Query
-  test('should not query for current user without authentication', async () => {
+  test('should query for current user without authentication', async () => {
     const CURRENT_USER = gql`
         query currentUser {
         currentUser {
