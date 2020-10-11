@@ -1,4 +1,4 @@
-// import server from './src/app.js';
+require('dotenv').config()
 const server = require('./src/app');
 
 // server.listen().then(({ url }) => {
