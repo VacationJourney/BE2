@@ -37,12 +37,13 @@ Help a client make vacation decisions based on finances, organize itinerary, and
  - testing
  - production
 
- [ ## PRISMA ](https://www.prisma.io/)
+ [ PRISMA ](https://www.prisma.io/)
+
  **ORM and more**
 
   - based on a data-model, prisma deploys/generates a query builder to a database. Works dynamically with GraphQL. Is able to generate graphql.schema files that can be imported into GraphQL server.
 
-###Getting Started
+### Getting Started
 **Docker-Compose**
 - for local development and testing.
 RUN -
@@ -51,8 +52,7 @@ to establish docker environment for Prisma and PostgreSQL DB locally.
 
 ---
 
-## Environments
-**development**
+### DEVELOPMENT
 
 1. `cd prisma`
 2. `prisma deploy -e ../config/dev.env`
@@ -61,7 +61,7 @@ to establish docker environment for Prisma and PostgreSQL DB locally.
 5. `cd ..`
 -to app root
 there--
-### yarn dev 
+**yarn dev** 
 - connects to the local prisma dev environment
 Runs the app in the development mode.<br />
 Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
@@ -97,7 +97,7 @@ add variables as object
 
 ```
 ---
-**testing**
+### TESTING
 1. `cd prisma`
 2. `prisma deploy -e ../config/test.env`
 3. `prisma generate -e ../config/test.env`
@@ -105,28 +105,29 @@ add variables as object
 5. `cd ..`
 -to app root
 there--
-### yarn test
+**yarn test**
 - connects to the local prisma testing environment
 -runs 3 test suites to test resolvers
 
 ---
-**production**
+###production
 *setUp heroku account*
 *create prisma.io account for production*
-### Prisma.io cloud
+**Prisma.io cloud**
 1. setUp prisma server (will prompt to login to heroku)
 2. setUp database through prisma (postgres DB on heroku)
 3. setUp prisma service (also will connect to heroku)
 - prisma init "identifying name for DB"
-*this will generate a new prisma folder, you only need the **url** in the prisma.yml*
+>this will generate a new prisma folder, you only need the **url** in the prisma.yml*
 4. setUp .env file with 
-- PRISMA_ENDPOINT=url <- 
-- JWT_SECRET
->optional
+- PRISMA_ENDPOINT=url  
+- JWT_SECRET=
+*optional*
 - setUp config/prod.env 
 *follow instructions for development, except now with prod.env*
 
-### yarn start
+**yarn start**
 - connects to prisma.io account for production
 Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
 
+---
