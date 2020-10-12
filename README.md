@@ -24,12 +24,14 @@ Help a client make vacation decisions based on finances, organize itinerary, and
 
 ### Tech Stack
 - Prisma
-- Docker
-- MongoDB
+- Docker-Compose
+- PostgreSQL
 - GraphQL
-- Apollo server
-- Jsonwebtoken
+- Apollo-server
+- JsonWebToken
 - Bcryptjs
+- Jest
+- Env-cmd
 
 
 ### Environments
