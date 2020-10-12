@@ -133,7 +133,7 @@ there--
 >this will generate a new prisma folder, you only need the **url** in the prisma.yml*
 4. setUp .env file with 
 - PRISMA_ENDPOINT=url  
-- JWT_SECRET=
+- JWT_SECRET=IsItSecret?!
 
 *optional*
 - setUp config/prod.env 
@@ -145,3 +145,5 @@ there--
 Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
 
 ---
+
+Many Thanks to 
