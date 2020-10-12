@@ -44,7 +44,9 @@ Help a client make vacation decisions based on finances, organize itinerary, and
   - based on a data-model, prisma deploys/generates a query builder to a database. Works dynamically with GraphQL. Is able to generate graphql.schema files that can be imported into GraphQL server.
 
 ### Getting Started
+
 **Docker-Compose**
+
 - for local development and testing.
 RUN -
 `docker-compose -up -d`
@@ -61,7 +63,9 @@ to establish docker environment for Prisma and PostgreSQL DB locally.
 5. `cd ..`
 -to app root
 there--
+
 **yarn dev** 
+
 - connects to the local prisma dev environment
 Runs the app in the development mode.<br />
 Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
@@ -105,7 +109,9 @@ add variables as object
 5. `cd ..`
 -to app root
 there--
+
 **yarn test**
+
 - connects to the local prisma testing environment
 -runs 3 test suites to test resolvers
 
@@ -113,7 +119,9 @@ there--
 ###production
 *setUp heroku account*
 *create prisma.io account for production*
-**Prisma.io cloud**
+
+[Prisma SignUp](https://app.prisma.io/signup)
+
 1. setUp prisma server (will prompt to login to heroku)
 2. setUp database through prisma (postgres DB on heroku)
 3. setUp prisma service (also will connect to heroku)
@@ -122,11 +130,13 @@ there--
 4. setUp .env file with 
 - PRISMA_ENDPOINT=url  
 - JWT_SECRET=
+
 *optional*
 - setUp config/prod.env 
 *follow instructions for development, except now with prod.env*
 
 **yarn start**
+
 - connects to prisma.io account for production
 Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
 
