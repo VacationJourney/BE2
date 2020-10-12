@@ -104,6 +104,7 @@ add variables as object
 ```
 ---
 ### TESTING
+
 1. `cd prisma`
 2. `prisma deploy -e ../config/test.env`
 3. `prisma generate -e ../config/test.env`
@@ -118,7 +119,8 @@ there--
 -runs 3 test suites to test resolvers
 
 ---
-###production
+### PRODUCTION
+
 *setUp heroku account*
 *create prisma.io account for production*
 
