@@ -121,8 +121,8 @@ there--
 ---
 ### PRODUCTION
 
-*setUp heroku account*
-*create prisma.io account for production*
+- *setUp heroku account*
+- *create prisma.io account for production*
 
 [Prisma SignUp](https://app.prisma.io/signup)
 
