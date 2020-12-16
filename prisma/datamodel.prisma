@@ -9,6 +9,8 @@ type User {
 type Vacation {
   id: ID! @id
   title: String!
+  budget: Int
+  cost: Int
   dates: [Day!]!
   dreams: String
   traveler: User @relation(link: INLINE)
@@ -17,6 +19,7 @@ type Vacation {
 type Day {
   id: ID! @id
   date: String!
+  cost: Int
   events: [Event]
   trip: Vacation @relation(link: INLINE)
 }
