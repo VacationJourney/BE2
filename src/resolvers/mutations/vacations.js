@@ -6,6 +6,7 @@ const createVacation = async (parent, args, { prisma, req }, info) => {
   const vacation = await prisma.createVacation({
     title,
     budget,
+    cost: 0,
     dates,
     traveler: {
       connect: { id }
@@ -39,8 +40,45 @@ const deleteVacation = (parent, args, { prisma }, info) => {
   return prisma.deleteVacation(args);
 }
 
-const deleteDay = (parent, args, { prisma }, info) => {
-  return prisma.deleteDay(args);
+const updateDayCost = async (parent, args, { prisma }, info) => {
+  const { where: { id } } = args;
+  const dayFound = await prisma.day({ id }).events()
+  const newDayCost = dayFound.map(event => event.cost).reduce((total, value) => total - value, 0)
+  const updatedDay = await prisma.updateDay({
+    data: {
+      cost: newDayCost
+    },
+    where: { id: id }
+  })
+  return updatedDay
 }
 
-module.exports = { createVacation, updateVacation, deleteVacation, deleteDay }
+const updateVacationCost = async (parent, args, { prisma }, info) => {
+  const { where: { id } } = args;
+  const vacationFound = await prisma.vacation({ id }).dates()
+  const newVacationCost = vacationFound.map(date => date.cost).reduce((total, value) => total + value, 0)
+  const updatedVacation = await prisma.updateVacation({
+    data: {
+      cost: newVacationCost
+    },
+    where: { id: id }
+  })
+  return updatedVacation
+}
+
+const deleteDay = async (parent, {id, tripId}, { prisma }, info) => {
+ 
+  const deletedDay = await prisma.deleteDay( {id})
+  // Promise for updating vacation cost
+  const vacationFound = await prisma.vacation( {id: tripId } ).dates()
+  const newVacationCost = vacationFound.map(date => date.cost).reduce((total, value) => total + value, 0)
+  await prisma.updateVacation({
+    data: {
+      cost: newVacationCost
+    },
+    where: { id: tripId }
+  })
+  return deletedDay;
+}
+
+module.exports = { createVacation, updateVacation, deleteVacation, updateDayCost, updateVacationCost, deleteDay }
