@@ -488,6 +488,8 @@ input EventUpdateInput {
   contact: String
   cost: Int
   description: String
+  dateId: ID
+  tripId: ID
 }
 
 input EventUpdateManyDataInput {
@@ -675,7 +677,7 @@ type Mutation {
   # deleteDay(where: DayWhereUniqueInput!): Day
   deleteManyDays(where: DayWhereInput): BatchPayload!
   createEvent(data: EventCreateInput!): Event!
-  updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
+  updateEvent( data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
   updateManyEvents(data: EventUpdateManyMutationInput!, where: EventWhereInput): BatchPayload!
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
   # deleteEvent(where: EventWhereUniqueInput!): Event
@@ -694,13 +696,16 @@ type Mutation {
   deleteManyVacations(where: VacationWhereInput): BatchPayload!
 
    # by owner
-   signUp(username: String, email: String , password: String) : UserRegResult!
+  signUp(username: String, email: String , password: String) : UserRegResult!
   login(username: String, password: String): LoginResponse!
   updateUser(id: ID!, username: String, email: String, password: String): User
   deleteUser(id: ID!): User
-  deleteDay(id: ID!): Day
-  deleteEvent(id: ID!): Event
+  deleteDay(id: ID!, tripId: ID!): Day
+  deleteEvent(id: ID!, dayId: ID!, tripId: ID!): Event
   deleteVacation(id: ID!): Vacation
+  updateDayCost( where: DayWhereUniqueInput!): Day
+  updateVacationCost( where: VacationWhereUniqueInput!): Vacation
+  updateCost( dateId: ID!): Vacation
 }
 
 enum MutationType {
