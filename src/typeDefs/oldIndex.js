@@ -1,7 +1,8 @@
+// import { gql } from 'apollo-server';
 const {gql} = require('apollo-server');
 
 const typeDefs = gql`
-type AggregateDay {
+  type AggregateDay {
   count: Int!
 }
 
@@ -24,8 +25,7 @@ type BatchPayload {
 type Day {
   id: ID!
   date: String!
-  cost: Int
-  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event]
   trip: Vacation
 }
 
@@ -38,7 +38,6 @@ type DayConnection {
 input DayCreateInput {
   id: ID
   date: String!
-  cost: Int
   events: EventCreateManyWithoutDateInput
   trip: VacationCreateOneWithoutDatesInput
 }
@@ -56,14 +55,12 @@ input DayCreateOneWithoutEventsInput {
 input DayCreateWithoutEventsInput {
   id: ID
   date: String!
-  cost: Int
   trip: VacationCreateOneWithoutDatesInput
 }
 
 input DayCreateWithoutTripInput {
   id: ID
   date: String!
-  cost: Int
   events: EventCreateManyWithoutDateInput
 }
 
@@ -77,14 +74,11 @@ enum DayOrderByInput {
   id_DESC
   date_ASC
   date_DESC
-  cost_ASC
-  cost_DESC
 }
 
 type DayPreviousValues {
   id: ID!
   date: String!
-  cost: Int
 }
 
 input DayScalarWhereInput {
@@ -116,14 +110,6 @@ input DayScalarWhereInput {
   date_not_starts_with: String
   date_ends_with: String
   date_not_ends_with: String
-  cost: Int
-  cost_not: Int
-  cost_in: [Int!]
-  cost_not_in: [Int!]
-  cost_lt: Int
-  cost_lte: Int
-  cost_gt: Int
-  cost_gte: Int
   AND: [DayScalarWhereInput!]
   OR: [DayScalarWhereInput!]
   NOT: [DayScalarWhereInput!]
@@ -149,19 +135,16 @@ input DaySubscriptionWhereInput {
 
 input DayUpdateInput {
   date: String
-  cost: Int
   events: EventUpdateManyWithoutDateInput
   trip: VacationUpdateOneWithoutDatesInput
 }
 
 input DayUpdateManyDataInput {
   date: String
-  cost: Int
 }
 
 input DayUpdateManyMutationInput {
   date: String
-  cost: Int
 }
 
 input DayUpdateManyWithoutTripInput {
@@ -192,13 +175,11 @@ input DayUpdateOneWithoutEventsInput {
 
 input DayUpdateWithoutEventsDataInput {
   date: String
-  cost: Int
   trip: VacationUpdateOneWithoutDatesInput
 }
 
 input DayUpdateWithoutTripDataInput {
   date: String
-  cost: Int
   events: EventUpdateManyWithoutDateInput
 }
 
@@ -247,14 +228,6 @@ input DayWhereInput {
   date_not_starts_with: String
   date_ends_with: String
   date_not_ends_with: String
-  cost: Int
-  cost_not: Int
-  cost_in: [Int!]
-  cost_not_in: [Int!]
-  cost_lt: Int
-  cost_lte: Int
-  cost_gt: Int
-  cost_gte: Int
   events_every: EventWhereInput
   events_some: EventWhereInput
   events_none: EventWhereInput
@@ -488,8 +461,6 @@ input EventUpdateInput {
   contact: String
   cost: Int
   description: String
-  dateId: ID
-  tripId: ID
 }
 
 input EventUpdateManyDataInput {
@@ -674,13 +645,13 @@ type Mutation {
   updateDay(data: DayUpdateInput!, where: DayWhereUniqueInput!): Day
   updateManyDays(data: DayUpdateManyMutationInput!, where: DayWhereInput): BatchPayload!
   upsertDay(where: DayWhereUniqueInput!, create: DayCreateInput!, update: DayUpdateInput!): Day!
-  # deleteDay(where: DayWhereUniqueInput!): Day
+  deleteDay(id: ID!): Day
   deleteManyDays(where: DayWhereInput): BatchPayload!
   createEvent(data: EventCreateInput!): Event!
-  updateEvent( data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
+  updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
   updateManyEvents(data: EventUpdateManyMutationInput!, where: EventWhereInput): BatchPayload!
   upsertEvent(where: EventWhereUniqueInput!, create: EventCreateInput!, update: EventUpdateInput!): Event!
-  # deleteEvent(where: EventWhereUniqueInput!): Event
+  deleteEvent(id: ID!): Event
   deleteManyEvents(where: EventWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   # updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
@@ -692,20 +663,14 @@ type Mutation {
   updateVacation(data: VacationUpdateInput!, where: VacationWhereUniqueInput!): Vacation
   updateManyVacations(data: VacationUpdateManyMutationInput!, where: VacationWhereInput): BatchPayload!
   upsertVacation(where: VacationWhereUniqueInput!, create: VacationCreateInput!, update: VacationUpdateInput!): Vacation!
-  # deleteVacation(where: VacationWhereUniqueInput!): Vacation
+  deleteVacation(id: ID!): Vacation
   deleteManyVacations(where: VacationWhereInput): BatchPayload!
 
-   # by owner
+  # by owner
   signUp(username: String, email: String , password: String) : UserRegResult!
   login(username: String, password: String): LoginResponse!
   updateUser(id: ID!, username: String, email: String, password: String): User
   deleteUser(id: ID!): User
-  deleteDay(id: ID!, tripId: ID!): Day
-  deleteEvent(id: ID!, dayId: ID!, tripId: ID!): Event
-  deleteVacation(id: ID!): Vacation
-  updateDayCost( where: DayWhereUniqueInput!): Day
-  updateVacationCost( where: VacationWhereUniqueInput!): Vacation
-  updateCost( dateId: ID!): Vacation
 }
 
 enum MutationType {
@@ -740,8 +705,8 @@ type Query {
   vacationsConnection(where: VacationWhereInput, orderBy: VacationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VacationConnection!
   node(id: ID!): Node
 
-   # by owner
-   currentUser: User!
+  # by owner
+  currentUser: User!
 }
 
 type Subscription {
@@ -932,10 +897,7 @@ input UserWhereUniqueInput {
 type Vacation {
   id: ID!
   title: String!
-  budget: Int
-  cost: Int
-  dates(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Day!]
-  dreams: String
+  dates(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Day!]!
   traveler: User
 }
 
@@ -948,10 +910,7 @@ type VacationConnection {
 input VacationCreateInput {
   id: ID
   title: String!
-  budget: Int
-  cost: Int
   dates: DayCreateManyWithoutTripInput
-  dreams: String
   traveler: UserCreateOneWithoutVacationsInput
 }
 
@@ -968,19 +927,13 @@ input VacationCreateOneWithoutDatesInput {
 input VacationCreateWithoutDatesInput {
   id: ID
   title: String!
-  budget: Int
-  cost: Int
-  dreams: String
   traveler: UserCreateOneWithoutVacationsInput
 }
 
 input VacationCreateWithoutTravelerInput {
   id: ID
   title: String!
-  budget: Int
-  cost: Int
   dates: DayCreateManyWithoutTripInput
-  dreams: String
 }
 
 type VacationEdge {
@@ -993,20 +946,11 @@ enum VacationOrderByInput {
   id_DESC
   title_ASC
   title_DESC
-  budget_ASC
-  budget_DESC
-  cost_ASC
-  cost_DESC
-  dreams_ASC
-  dreams_DESC
 }
 
 type VacationPreviousValues {
   id: ID!
   title: String!
-  budget: Int
-  cost: Int
-  dreams: String
 }
 
 input VacationScalarWhereInput {
@@ -1038,36 +982,6 @@ input VacationScalarWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
-  budget: Int
-  budget_not: Int
-  budget_in: [Int!]
-  budget_not_in: [Int!]
-  budget_lt: Int
-  budget_lte: Int
-  budget_gt: Int
-  budget_gte: Int
-  cost: Int
-  cost_not: Int
-  cost_in: [Int!]
-  cost_not_in: [Int!]
-  cost_lt: Int
-  cost_lte: Int
-  cost_gt: Int
-  cost_gte: Int
-  dreams: String
-  dreams_not: String
-  dreams_in: [String!]
-  dreams_not_in: [String!]
-  dreams_lt: String
-  dreams_lte: String
-  dreams_gt: String
-  dreams_gte: String
-  dreams_contains: String
-  dreams_not_contains: String
-  dreams_starts_with: String
-  dreams_not_starts_with: String
-  dreams_ends_with: String
-  dreams_not_ends_with: String
   AND: [VacationScalarWhereInput!]
   OR: [VacationScalarWhereInput!]
   NOT: [VacationScalarWhereInput!]
@@ -1093,25 +1007,16 @@ input VacationSubscriptionWhereInput {
 
 input VacationUpdateInput {
   title: String
-  budget: Int
-  cost: Int
   dates: DayUpdateManyWithoutTripInput
-  dreams: String
   traveler: UserUpdateOneWithoutVacationsInput
 }
 
 input VacationUpdateManyDataInput {
   title: String
-  budget: Int
-  cost: Int
-  dreams: String
 }
 
 input VacationUpdateManyMutationInput {
   title: String
-  budget: Int
-  cost: Int
-  dreams: String
 }
 
 input VacationUpdateManyWithoutTravelerInput {
@@ -1142,18 +1047,12 @@ input VacationUpdateOneWithoutDatesInput {
 
 input VacationUpdateWithoutDatesDataInput {
   title: String
-  budget: Int
-  cost: Int
-  dreams: String
   traveler: UserUpdateOneWithoutVacationsInput
 }
 
 input VacationUpdateWithoutTravelerDataInput {
   title: String
-  budget: Int
-  cost: Int
   dates: DayUpdateManyWithoutTripInput
-  dreams: String
 }
 
 input VacationUpdateWithWhereUniqueWithoutTravelerInput {
@@ -1201,39 +1100,9 @@ input VacationWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
-  budget: Int
-  budget_not: Int
-  budget_in: [Int!]
-  budget_not_in: [Int!]
-  budget_lt: Int
-  budget_lte: Int
-  budget_gt: Int
-  budget_gte: Int
-  cost: Int
-  cost_not: Int
-  cost_in: [Int!]
-  cost_not_in: [Int!]
-  cost_lt: Int
-  cost_lte: Int
-  cost_gt: Int
-  cost_gte: Int
   dates_every: DayWhereInput
   dates_some: DayWhereInput
   dates_none: DayWhereInput
-  dreams: String
-  dreams_not: String
-  dreams_in: [String!]
-  dreams_not_in: [String!]
-  dreams_lt: String
-  dreams_lte: String
-  dreams_gt: String
-  dreams_gte: String
-  dreams_contains: String
-  dreams_not_contains: String
-  dreams_starts_with: String
-  dreams_not_starts_with: String
-  dreams_ends_with: String
-  dreams_not_ends_with: String
   traveler: UserWhereInput
   AND: [VacationWhereInput!]
   OR: [VacationWhereInput!]
@@ -1243,24 +1112,23 @@ input VacationWhereInput {
 input VacationWhereUniqueInput {
   id: ID
 }
-
 # by owner
-union UserRegResult = SignUpResponse | UserFoundError
+  union UserRegResult = SignUpResponse | UserFoundError
 
 
-type UserFoundError {
-    message: String!
+  type UserFoundError {
+      message: String!
+    }
+
+  type LoginResponse {
+    token: String
+    user: User
   }
 
-type LoginResponse {
-  token: String
-  user: User
-}
+  type SignUpResponse {
+    token: String
+    user: User
+  }
+`;
 
-type SignUpResponse {
-  token: String
-  user: User
-}
-
-`
 module.exports = typeDefs;

@@ -26,6 +26,7 @@ type BatchPayload {
 type Day {
   id: ID!
   date: String!
+  cost: Int
   events(where: EventWhereInput, orderBy: EventOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
   trip: Vacation
 }
@@ -39,6 +40,7 @@ type DayConnection {
 input DayCreateInput {
   id: ID
   date: String!
+  cost: Int
   events: EventCreateManyWithoutDateInput
   trip: VacationCreateOneWithoutDatesInput
 }
@@ -56,12 +58,14 @@ input DayCreateOneWithoutEventsInput {
 input DayCreateWithoutEventsInput {
   id: ID
   date: String!
+  cost: Int
   trip: VacationCreateOneWithoutDatesInput
 }
 
 input DayCreateWithoutTripInput {
   id: ID
   date: String!
+  cost: Int
   events: EventCreateManyWithoutDateInput
 }
 
@@ -75,11 +79,14 @@ enum DayOrderByInput {
   id_DESC
   date_ASC
   date_DESC
+  cost_ASC
+  cost_DESC
 }
 
 type DayPreviousValues {
   id: ID!
   date: String!
+  cost: Int
 }
 
 input DayScalarWhereInput {
@@ -111,6 +118,14 @@ input DayScalarWhereInput {
   date_not_starts_with: String
   date_ends_with: String
   date_not_ends_with: String
+  cost: Int
+  cost_not: Int
+  cost_in: [Int!]
+  cost_not_in: [Int!]
+  cost_lt: Int
+  cost_lte: Int
+  cost_gt: Int
+  cost_gte: Int
   AND: [DayScalarWhereInput!]
   OR: [DayScalarWhereInput!]
   NOT: [DayScalarWhereInput!]
@@ -136,16 +151,19 @@ input DaySubscriptionWhereInput {
 
 input DayUpdateInput {
   date: String
+  cost: Int
   events: EventUpdateManyWithoutDateInput
   trip: VacationUpdateOneWithoutDatesInput
 }
 
 input DayUpdateManyDataInput {
   date: String
+  cost: Int
 }
 
 input DayUpdateManyMutationInput {
   date: String
+  cost: Int
 }
 
 input DayUpdateManyWithoutTripInput {
@@ -176,11 +194,13 @@ input DayUpdateOneWithoutEventsInput {
 
 input DayUpdateWithoutEventsDataInput {
   date: String
+  cost: Int
   trip: VacationUpdateOneWithoutDatesInput
 }
 
 input DayUpdateWithoutTripDataInput {
   date: String
+  cost: Int
   events: EventUpdateManyWithoutDateInput
 }
 
@@ -229,6 +249,14 @@ input DayWhereInput {
   date_not_starts_with: String
   date_ends_with: String
   date_not_ends_with: String
+  cost: Int
+  cost_not: Int
+  cost_in: [Int!]
+  cost_not_in: [Int!]
+  cost_lt: Int
+  cost_lte: Int
+  cost_gt: Int
+  cost_gte: Int
   events_every: EventWhereInput
   events_some: EventWhereInput
   events_none: EventWhereInput
@@ -889,6 +917,8 @@ input UserWhereUniqueInput {
 type Vacation {
   id: ID!
   title: String!
+  budget: Int
+  cost: Int
   dates(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Day!]
   dreams: String
   traveler: User
@@ -903,6 +933,8 @@ type VacationConnection {
 input VacationCreateInput {
   id: ID
   title: String!
+  budget: Int
+  cost: Int
   dates: DayCreateManyWithoutTripInput
   dreams: String
   traveler: UserCreateOneWithoutVacationsInput
@@ -921,6 +953,8 @@ input VacationCreateOneWithoutDatesInput {
 input VacationCreateWithoutDatesInput {
   id: ID
   title: String!
+  budget: Int
+  cost: Int
   dreams: String
   traveler: UserCreateOneWithoutVacationsInput
 }
@@ -928,6 +962,8 @@ input VacationCreateWithoutDatesInput {
 input VacationCreateWithoutTravelerInput {
   id: ID
   title: String!
+  budget: Int
+  cost: Int
   dates: DayCreateManyWithoutTripInput
   dreams: String
 }
@@ -942,6 +978,10 @@ enum VacationOrderByInput {
   id_DESC
   title_ASC
   title_DESC
+  budget_ASC
+  budget_DESC
+  cost_ASC
+  cost_DESC
   dreams_ASC
   dreams_DESC
 }
@@ -949,6 +989,8 @@ enum VacationOrderByInput {
 type VacationPreviousValues {
   id: ID!
   title: String!
+  budget: Int
+  cost: Int
   dreams: String
 }
 
@@ -981,6 +1023,22 @@ input VacationScalarWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
+  budget: Int
+  budget_not: Int
+  budget_in: [Int!]
+  budget_not_in: [Int!]
+  budget_lt: Int
+  budget_lte: Int
+  budget_gt: Int
+  budget_gte: Int
+  cost: Int
+  cost_not: Int
+  cost_in: [Int!]
+  cost_not_in: [Int!]
+  cost_lt: Int
+  cost_lte: Int
+  cost_gt: Int
+  cost_gte: Int
   dreams: String
   dreams_not: String
   dreams_in: [String!]
@@ -1020,6 +1078,8 @@ input VacationSubscriptionWhereInput {
 
 input VacationUpdateInput {
   title: String
+  budget: Int
+  cost: Int
   dates: DayUpdateManyWithoutTripInput
   dreams: String
   traveler: UserUpdateOneWithoutVacationsInput
@@ -1027,11 +1087,15 @@ input VacationUpdateInput {
 
 input VacationUpdateManyDataInput {
   title: String
+  budget: Int
+  cost: Int
   dreams: String
 }
 
 input VacationUpdateManyMutationInput {
   title: String
+  budget: Int
+  cost: Int
   dreams: String
 }
 
@@ -1063,12 +1127,16 @@ input VacationUpdateOneWithoutDatesInput {
 
 input VacationUpdateWithoutDatesDataInput {
   title: String
+  budget: Int
+  cost: Int
   dreams: String
   traveler: UserUpdateOneWithoutVacationsInput
 }
 
 input VacationUpdateWithoutTravelerDataInput {
   title: String
+  budget: Int
+  cost: Int
   dates: DayUpdateManyWithoutTripInput
   dreams: String
 }
@@ -1118,6 +1186,22 @@ input VacationWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
+  budget: Int
+  budget_not: Int
+  budget_in: [Int!]
+  budget_not_in: [Int!]
+  budget_lt: Int
+  budget_lte: Int
+  budget_gt: Int
+  budget_gte: Int
+  cost: Int
+  cost_not: Int
+  cost_in: [Int!]
+  cost_not_in: [Int!]
+  cost_lt: Int
+  cost_lte: Int
+  cost_gt: Int
+  cost_gte: Int
   dates_every: DayWhereInput
   dates_some: DayWhereInput
   dates_none: DayWhereInput
