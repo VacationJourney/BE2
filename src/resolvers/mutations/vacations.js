@@ -16,7 +16,6 @@ const createVacation = async (parent, args, { prisma, req }, info) => {
 }
 
 const updateVacation = async (parent, args, { prisma, req }, info) => {
-
   await prisma.deleteManyDays()
   const { data: { title, budget, cost, dates }, where: { id } } = args;
   const { username } = decodeToken(req)
