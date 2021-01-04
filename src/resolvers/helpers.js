@@ -20,7 +20,9 @@ const Vacation = {
 
 const Day = {
   events(parent, args, { prisma }) {
-    return prisma.day({ id: parent.id }).events();
+    return prisma.day({ id: parent.id }).events({
+      orderBy: args.orderBy
+    });
   },
 }
 
