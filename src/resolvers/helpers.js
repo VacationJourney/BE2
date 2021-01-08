@@ -14,7 +14,9 @@ const Vacation = {
       .vacation({
         id: parent.id,
       })
-      .dates();
+      .dates({
+        orderBy:args.orderBy
+      });
   },
 }
 
