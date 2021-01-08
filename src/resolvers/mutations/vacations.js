@@ -16,26 +16,12 @@ const createVacation = async (parent, args, { prisma, req }, info) => {
 }
 
 const updateVacation = async (parent, args, { prisma, req }, info) => {
-  await prisma.deleteManyDays()
-  const { data: { title, budget, cost, dates }, where: { id } } = args;
-  const { username } = decodeToken(req)
-  const updatedVacation = await prisma.updateVacation({
-    data: {
-      title,
-      dates,
-      budget,
-      cost,
-      traveler: {
-        connect: { username }
-      }
-    },
-    where: { id: id }
-
-  })
+  const updatedVacation = await prisma.updateVacation(args)
   return updatedVacation;
 }
 
-const deleteVacation = (parent, args, { prisma }, info) => {
+const deleteVacation = async (parent, args, { prisma }, info) => {
+  await prisma.deleteManyDays()
   return prisma.deleteVacation(args);
 }
 
@@ -65,11 +51,16 @@ const updateVacationCost = async (parent, args, { prisma }, info) => {
   return updatedVacation
 }
 
-const deleteDay = async (parent, {id, tripId}, { prisma }, info) => {
- 
-  const deletedDay = await prisma.deleteDay( {id})
+const createDay = async (parent, args, { prisma }, info) => {
+  const addedDay = await prisma.createDay(args.data)
+  return addedDay
+}
+
+const deleteDay = async (parent, { id, tripId }, { prisma }, info) => {
+
+  const deletedDay = await prisma.deleteDay({ id })
   // Promise for updating vacation cost
-  const vacationFound = await prisma.vacation( {id: tripId } ).dates()
+  const vacationFound = await prisma.vacation({ id: tripId }).dates()
   const newVacationCost = vacationFound.map(date => date.cost).reduce((total, value) => total + value, 0)
   await prisma.updateVacation({
     data: {
@@ -79,5 +70,9 @@ const deleteDay = async (parent, {id, tripId}, { prisma }, info) => {
   })
   return deletedDay;
 }
+const deleteManyDays = async (parent, args, { prisma }, info) => {
+  const { where: {trip }} = args
+  return prisma.deleteManyDays({trip})
+}
 
-module.exports = { createVacation, updateVacation, deleteVacation, updateDayCost, updateVacationCost, deleteDay }
+module.exports = { createVacation, updateVacation, deleteVacation, updateDayCost, updateVacationCost, createDay, deleteDay, deleteManyDays }
