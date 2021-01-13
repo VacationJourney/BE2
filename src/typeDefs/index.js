@@ -698,6 +698,7 @@ type Mutation {
    # by owner
   signUp(username: String, email: String , password: String) : UserRegResult!
   login(username: String, password: String): LoginResponse!
+  authorizeUser(username: String, email: String! ): User!
   updateUser(id: ID!, username: String, email: String, password: String): User
   deleteUser(id: ID!): User
   deleteDay(id: ID!, tripId: ID!): Day
