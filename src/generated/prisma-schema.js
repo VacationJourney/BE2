@@ -738,9 +738,8 @@ type Subscription {
 
 type User {
   id: ID!
-  username: String!
-  email: String
-  password: String!
+  username: String
+  email: String!
   vacations(where: VacationWhereInput, orderBy: VacationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vacation!]
 }
 
@@ -752,9 +751,8 @@ type UserConnection {
 
 input UserCreateInput {
   id: ID
-  username: String!
-  email: String
-  password: String!
+  username: String
+  email: String!
   vacations: VacationCreateManyWithoutTravelerInput
 }
 
@@ -765,9 +763,8 @@ input UserCreateOneWithoutVacationsInput {
 
 input UserCreateWithoutVacationsInput {
   id: ID
-  username: String!
-  email: String
-  password: String!
+  username: String
+  email: String!
 }
 
 type UserEdge {
@@ -782,15 +779,12 @@ enum UserOrderByInput {
   username_DESC
   email_ASC
   email_DESC
-  password_ASC
-  password_DESC
 }
 
 type UserPreviousValues {
   id: ID!
-  username: String!
-  email: String
-  password: String!
+  username: String
+  email: String!
 }
 
 type UserSubscriptionPayload {
@@ -814,14 +808,12 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   username: String
   email: String
-  password: String
   vacations: VacationUpdateManyWithoutTravelerInput
 }
 
 input UserUpdateManyMutationInput {
   username: String
   email: String
-  password: String
 }
 
 input UserUpdateOneWithoutVacationsInput {
@@ -836,7 +828,6 @@ input UserUpdateOneWithoutVacationsInput {
 input UserUpdateWithoutVacationsDataInput {
   username: String
   email: String
-  password: String
 }
 
 input UserUpsertWithoutVacationsInput {
@@ -887,20 +878,6 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
-  password: String
-  password_not: String
-  password_in: [String!]
-  password_not_in: [String!]
-  password_lt: String
-  password_lte: String
-  password_gt: String
-  password_gte: String
-  password_contains: String
-  password_not_contains: String
-  password_starts_with: String
-  password_not_starts_with: String
-  password_ends_with: String
-  password_not_ends_with: String
   vacations_every: VacationWhereInput
   vacations_some: VacationWhereInput
   vacations_none: VacationWhereInput
@@ -911,7 +888,7 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
-  username: String
+  email: String
 }
 
 type Vacation {
