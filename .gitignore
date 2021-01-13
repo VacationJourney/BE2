@@ -20,6 +20,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-
+config/dev.env
 config/prod.env
 config/prod2.env
