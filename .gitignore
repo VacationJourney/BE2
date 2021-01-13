@@ -21,3 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 
 config/prod.env
+config/prod2.env

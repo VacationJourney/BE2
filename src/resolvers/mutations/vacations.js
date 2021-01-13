@@ -1,8 +1,8 @@
 const { decodeToken } = require('../../utils/token');
 
-const createVacation = async (parent, args, { prisma, req }, info) => {
-  const { data: { title, budget, dates } } = args;
-  const { id } = decodeToken(req)
+const createVacation = async (parent, args, { prisma }, info) => {
+  const { data: { title, budget, dates, traveler: {connect: {id}} } } = args;
+  // const { id } = decodeToken(req)
   const vacation = await prisma.createVacation({
     title,
     budget,

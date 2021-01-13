@@ -1,9 +1,17 @@
 const bcrypt = require('bcryptjs');
-const {signToken, decodeToken} = require('../../utils/token');
+// const {signToken, decodeToken} = require('../../utils/token');
+const authorizeUser = async (parent, { username, email }, { prisma }, info) => {
+  const user = await prisma.upsertUser({
+    where: { email },
+    create: { username, email },
+    update: { username, email }
+  })
+  return user
+}
 
 const signUp = async (parent, { username, email, password }, ctx, info) => {
   const found = await ctx.prisma.user({ username });
-  
+
   if (!found) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await ctx.prisma.createUser({
@@ -11,11 +19,11 @@ const signUp = async (parent, { username, email, password }, ctx, info) => {
       email,
       password: hashedPassword,
     });
-    const token = signToken(user);
-    return { token, user};
+    // const token = signToken(user);
+    return user;
   } else {
     return {
-      
+
       message: `${username} already exists in DB!`,
     };
   }
@@ -55,13 +63,13 @@ const updateUser = async (
       email,
       password: hashedPassword,
     },
-    where: {  id },
+    where: { id },
   });
   return changes;
 }
 
-const deleteUser = async (parent,args, { prisma }, info) => {
+const deleteUser = async (parent, args, { prisma }, info) => {
   return prisma.deleteUser(args);
 }
 
-module.exports = {signUp, login, updateUser, deleteUser}
+module.exports = { authorizeUser, signUp, login, updateUser, deleteUser }

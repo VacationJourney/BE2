@@ -1,8 +1,7 @@
 type User {
   id: ID! @id
-  username: String! @unique
-  email: String
-  password: String!
+  username: String 
+  email: String! @unique
   vacations: [Vacation!]
 }
 

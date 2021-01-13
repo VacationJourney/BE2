@@ -262,9 +262,7 @@ export type UserOrderByInput =
   | "username_ASC"
   | "username_DESC"
   | "email_ASC"
-  | "email_DESC"
-  | "password_ASC"
-  | "password_DESC";
+  | "email_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -759,7 +757,7 @@ export interface VacationUpdateOneWithoutDatesInput {
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
-  username?: Maybe<String>;
+  email?: Maybe<String>;
 }>;
 
 export interface VacationUpdateWithoutDatesDataInput {
@@ -840,7 +838,6 @@ export interface DayScalarWhereInput {
 export interface UserUpdateWithoutVacationsDataInput {
   username?: Maybe<String>;
   email?: Maybe<String>;
-  password?: Maybe<String>;
 }
 
 export interface DayUpsertWithWhereUniqueWithoutTripInput {
@@ -915,20 +912,6 @@ export interface UserWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
-  password?: Maybe<String>;
-  password_not?: Maybe<String>;
-  password_in?: Maybe<String[] | String>;
-  password_not_in?: Maybe<String[] | String>;
-  password_lt?: Maybe<String>;
-  password_lte?: Maybe<String>;
-  password_gt?: Maybe<String>;
-  password_gte?: Maybe<String>;
-  password_contains?: Maybe<String>;
-  password_not_contains?: Maybe<String>;
-  password_starts_with?: Maybe<String>;
-  password_not_starts_with?: Maybe<String>;
-  password_ends_with?: Maybe<String>;
-  password_not_ends_with?: Maybe<String>;
   vacations_every?: Maybe<VacationWhereInput>;
   vacations_some?: Maybe<VacationWhereInput>;
   vacations_none?: Maybe<VacationWhereInput>;
@@ -972,9 +955,8 @@ export interface VacationUpdateWithWhereUniqueWithoutTravelerInput {
 
 export interface UserCreateWithoutVacationsInput {
   id?: Maybe<ID_Input>;
-  username: String;
-  email?: Maybe<String>;
-  password: String;
+  username?: Maybe<String>;
+  email: String;
 }
 
 export interface EventCreateInput {
@@ -1102,14 +1084,12 @@ export interface EventUpdateManyMutationInput {
 export interface UserUpdateManyMutationInput {
   username?: Maybe<String>;
   email?: Maybe<String>;
-  password?: Maybe<String>;
 }
 
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
-  username: String;
-  email?: Maybe<String>;
-  password: String;
+  username?: Maybe<String>;
+  email: String;
   vacations?: Maybe<VacationCreateManyWithoutTravelerInput>;
 }
 
@@ -1133,7 +1113,6 @@ export interface EventCreateManyWithoutDateInput {
 export interface UserUpdateInput {
   username?: Maybe<String>;
   email?: Maybe<String>;
-  password?: Maybe<String>;
   vacations?: Maybe<VacationUpdateManyWithoutTravelerInput>;
 }
 
@@ -1728,16 +1707,14 @@ export interface AggregateUserSubscription
 
 export interface User {
   id: ID_Output;
-  username: String;
-  email?: String;
-  password: String;
+  username?: String;
+  email: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
   username: () => Promise<String>;
   email: () => Promise<String>;
-  password: () => Promise<String>;
   vacations: <T = FragmentableArray<Vacation>>(args?: {
     where?: VacationWhereInput;
     orderBy?: VacationOrderByInput;
@@ -1755,7 +1732,6 @@ export interface UserSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   username: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
   vacations: <T = Promise<AsyncIterator<VacationSubscription>>>(args?: {
     where?: VacationWhereInput;
     orderBy?: VacationOrderByInput;
@@ -1773,7 +1749,6 @@ export interface UserNullablePromise
   id: () => Promise<ID_Output>;
   username: () => Promise<String>;
   email: () => Promise<String>;
-  password: () => Promise<String>;
   vacations: <T = FragmentableArray<Vacation>>(args?: {
     where?: VacationWhereInput;
     orderBy?: VacationOrderByInput;
@@ -1849,9 +1824,8 @@ export interface EventSubscriptionPayloadSubscription
 
 export interface UserPreviousValues {
   id: ID_Output;
-  username: String;
-  email?: String;
-  password: String;
+  username?: String;
+  email: String;
 }
 
 export interface UserPreviousValuesPromise
@@ -1860,7 +1834,6 @@ export interface UserPreviousValuesPromise
   id: () => Promise<ID_Output>;
   username: () => Promise<String>;
   email: () => Promise<String>;
-  password: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -1869,7 +1842,6 @@ export interface UserPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   username: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserConnection {
